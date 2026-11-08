@@ -43,7 +43,7 @@ Riot의 livestats 피드는 점수, 오브젝트, 선수 스탯을 정확하게 
 | **오브젝트 타이머** | 용·장로·바론이 나오기까지 남은 시간 (피드의 처치 시각과 패치 규칙으로 계산) |
 | **부활 카운트다운** | 사망한 선수의 `☠ ~Ns`. 라이브는 추정(`~`), 다시 보기는 피드에서 읽은 정확한 시각 |
 | **마우스 조작** | 클릭으로 창 선택과 항목 이동, 더블클릭으로 열기, 휠로 목록 스크롤 |
-| **CLI 명령** | `live`·`schedule`·`standings`·`streams`·`leagues`는 텍스트로 출력, `relay`·`replay`는 풀스크린 보드 |
+| **CLI 명령** | `live`·`schedule`·`standings`·`streams`·`leagues`는 텍스트로 출력, `relay`·`replay`는 풀스크린 보드, `bar`는 macOS 메뉴 막대 요약 |
 | **3개 언어** | 한국어·영어·중국어 UI. `-lang ko\|en\|zh` 또는 `LOLTERM_LANG`, 옵션 메뉴에서 전환 |
 | **단일 바이너리** | Go 표준 라이브러리만 사용. 외부 의존성 없음 |
 
@@ -80,6 +80,7 @@ lolterm lol replay                   # 최근 종료 경기와 -match 에 쓸 id
 lolterm lol replay -match 115660588583040710 -g 1
 lolterm lol relay -l msi             # MSI 풀스크린 실시간 중계 (-i 5s 로 폴링 간격, -1 로 한 프레임)
 lolterm lol live -l lck -w           # 라이브 경기와 점수판을 텍스트로 출력, -w 는 30초마다 갱신
+lolterm lol bar -1                   # macOS 메뉴 막대용 라이브 경기 요약 (SwiftBar 플러그인, 아래 참고)
 lolterm lol schedule -l worlds -n 10 # 예정 경기 (-a 는 최근 종료 경기)
 lolterm lol standings -l msi         # 대진표·순위
 lolterm lol streams -l lck           # 중계 링크
@@ -140,6 +141,29 @@ lolterm -version                     # 설치된 버전 (버그 제보에 첨부
 부활 카운트다운은 라이브에서 레벨과 게임 시간으로 계산한 추정이라 `~`가 붙고, 다시 보기에서는 피드에서 읽은 정확한 시각입니다.
 용·장로·바론 타이머는 피드가 알려 준 처치 시각에 패치 규칙의 재등장 시간(용 5분, 장로·바론 6분, 바론 첫 등장 20분)을 더해 계산합니다.
 `b`는 stats → items → runes 보기를, `s`는 골드 차이 스파크라인을, `o`는 오브젝트 맵을 켜고 끕니다.
+
+## 메뉴 막대 (macOS)
+
+`lolterm lol bar`는 라이브 경기를 [SwiftBar](https://github.com/swiftbar/SwiftBar)의 스트리밍 플러그인 형식으로 출력합니다.
+메뉴 막대에는 `T1 7–6 BLG · T1 +770 · 22:27`처럼 블루 팀이 왼쪽인 킬 스코어, 골드 리드, 게임 시계가 나오고, 일시정지 중이면 `⏸`가 붙습니다.
+클릭하면 세트 스코어, 킬·골드·타워·억제기·용·바론, 오브젝트 타이머, 선수별 K/D/A·CS·골드·부활 카운트다운이 펼쳐지고, 라이브 보드나 대화형 앱을 터미널에서 엽니다.
+피드는 `relay`와 같은 방식으로 받으므로 게임 시계에서 플러그인 시작 전의 일시정지도 빠집니다. 폴링 간격은 `-i`(기본 5s)입니다.
+
+```bash
+brew install --cask swiftbar
+mkdir -p ~/.config/swiftbar
+cat > ~/.config/swiftbar/lolterm.sh <<'EOF'
+#!/bin/sh
+#<swiftbar.type>streamable</swiftbar.type>
+exec "$HOME/.local/bin/lolterm" -lang ko lol bar
+EOF
+chmod +x ~/.config/swiftbar/lolterm.sh
+defaults write com.ameba.SwiftBar PluginDirectory -string "$HOME/.config/swiftbar"
+open -a SwiftBar
+```
+
+`lolterm` 경로는 `command -v lolterm`으로 확인해 바꾸고, 리그를 고정하려면 `lol bar -l lck`처럼 씁니다.
+드롭다운의 명령이 열 터미널은 SwiftBar 설정의 `Terminal`(Terminal, iTerm, Ghostty, Kitty)에서 고릅니다.
 
 ### 하지 않는 것
 

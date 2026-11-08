@@ -93,6 +93,7 @@ lolterm lol relay      [-l <league>] [-i Dur] [-1]   풀스크린 ASCII 실시�
 lolterm lol replay     [-match ID [-g N]] [-l <league>]
                                                     끝난 경기 다시 보기: livestats 피드로 재생
                                                     (-match 없이 실행하면 최근 종료 경기 목록과 id)
+lolterm lol bar        [-l <league>] [-i Dur] [-1]   macOS 메뉴 막대 요약 (SwiftBar 스트리밍 플러그인, -i 마다 `~~~` 와 새 블록)
 lolterm lol live       [-l <league>] [-w]            실시간 경기 + 인게임 보드
 lolterm lol streams    [-l <league>]                 중계 스트림 링크
 lolterm lol standings  [-l <league>]                 대회 브래킷 / 순위
@@ -106,8 +107,8 @@ lolterm lol bench      [-w N] [-h N]                 풀 리페인트와 1초 di
 플래그
 - `-l <league>`  리그 슬러그 필터 (`msi`, `worlds`, `lck`, `lpl`, `lec`, `lcs`, ...)
 - `-w`           live: watch 모드, 30초마다 새로고침 (demo/bench 에서는 `-w N` 이 터미널 폭 지정)
-- `-1`           relay: 단일 프레임만 출력 후 종료 (스크린샷/스크립트용)
-- `-i Dur`       relay: 피드 폴링 간격 (기본 `2s`). 화면은 항상 0.5초 간격으로 갱신된다
+- `-1`           relay/bar: 단일 프레임(블록)만 출력 후 종료 (스크린샷/스크립트용)
+- `-i Dur`       relay: 피드 폴링 간격 (기본 `2s`). 화면은 항상 0.5초 간격으로 갱신된다. bar: 폴링과 메뉴 막대 갱신 간격 (기본 `5s`)
 - `-match ID`    replay: lolesports 경기 id (목록: `lolterm lol replay`)
 - `-g N`         replay: 경기 안의 세트 번호 (기본 1)
 - `-n N`         schedule: 표시할 경기 수 (기본 15)

@@ -675,13 +675,7 @@ func buildFramed(ev event, w windowResp, det detailsResp, game time.Duration, no
 	if tg.replay != nil {
 		lwins, rwins = "-", "-" // a replay knows the series score only when the final game is shown
 	}
-	if ev.Match != nil && len(ev.Match.Teams) >= 2 {
-		lt, rt := ev.Match.Teams[0], ev.Match.Teams[1]
-		// getLive lists the series' teams in a fixed order; the game decides who is blue.
-		// Kills, gold and the players below are blue left, so the names must be too.
-		if blue := w.GameMetadata.BlueTeamMetadata.EsportsTeamID; blue != "" && rt.ID == blue {
-			lt, rt = rt, lt
-		}
+	if lt, rt, ok := boardTeams(ev, w); ok {
 		lname = or(lt.Name, or(lt.Code, "TBD"))
 		rname = or(rt.Name, or(rt.Code, "TBD"))
 		if lt.Result != nil {
@@ -691,15 +685,7 @@ func buildFramed(ev event, w windowResp, det detailsResp, game time.Duration, no
 			rwins = itoa(rt.Result.GameWins)
 		}
 	}
-	gameNo, totalGames := 0, 0
-	if ev.Match != nil {
-		totalGames = len(ev.Match.Games)
-		for _, g := range ev.Match.Games {
-			if g.State != "unstarted" {
-				gameNo++
-			}
-		}
-	}
+	gameNo, totalGames := gameNumber(ev)
 	nameW := 18
 	if t < 100 {
 		nameW = 14
@@ -930,6 +916,34 @@ func finishCanvas(rows []line, t, h int, now time.Time, compact bool, interval t
 		}
 	}
 	return linesToCanvas(rows, t)
+}
+
+// boardTeams returns the series' teams with the blue side first: getLive lists them in a
+// fixed order and the game decides who is blue. Kills, gold and players are blue first,
+// so the names must be too. ok is false without two teams.
+func boardTeams(ev event, w windowResp) (blue, red teamResult, ok bool) {
+	if ev.Match == nil || len(ev.Match.Teams) < 2 {
+		return teamResult{}, teamResult{}, false
+	}
+	blue, red = ev.Match.Teams[0], ev.Match.Teams[1]
+	if id := w.GameMetadata.BlueTeamMetadata.EsportsTeamID; id != "" && red.ID == id {
+		blue, red = red, blue
+	}
+	return blue, red, true
+}
+
+// gameNumber is the number of the current game of the series (games started so far) and
+// the number of games of the series.
+func gameNumber(ev event) (no, total int) {
+	if ev.Match == nil {
+		return 0, 0
+	}
+	for _, g := range ev.Match.Games {
+		if g.State != "unstarted" {
+			no++
+		}
+	}
+	return no, len(ev.Match.Games)
 }
 
 // ---------------- data fetch ----------------

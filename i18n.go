@@ -18,6 +18,7 @@ const (
 
 var currentLang = langEN
 var langNames = [3]string{"English", "한국어", "中文"}
+var langCodes = [3]string{"en", "ko", "zh"} // the -lang value of each language
 
 func parseLang(s string) (langID, bool) {
 	switch strings.ToLower(strings.TrimSpace(s)) {
@@ -194,6 +195,17 @@ var messages = map[string][3]string{
 	"help_seek":         {"seek ±10 s", "±10초 이동", "跳转 ±10 秒"},
 	"help_speed":        {"speed 1× 2× 4×", "배속 1× 2× 4×", "速度 1× 2× 4×"},
 	"help_more":         {"… %d of %d (↑/↓ scroll)", "… %d/%d줄 (↑/↓ 스크롤)", "… 第 %d/%d 行（↑/↓ 滚动）"},
+	"bar_series":        {"Series", "세트", "系列赛"},
+	"bar_kills":         {"Kills", "킬", "击杀"},
+	"bar_gold":          {"Gold", "골드", "金币"},
+	"bar_towers":        {"Towers", "타워", "防御塔"},
+	"bar_inhibs":        {"Inhibs", "억제기", "兵营"},
+	"bar_dragons":       {"Dragons", "용", "小龙"},
+	"bar_barons":        {"Barons", "바론", "大龙"},
+	"bar_no_live":       {"No live games right now", "진행 중인 경기가 없습니다", "当前没有直播比赛"},
+	"bar_waiting":       {"waiting for in-game data…", "게임 데이터를 기다리는 중…", "等待对局数据…"},
+	"bar_open_board":    {"Open the live board", "라이브 보드 열기", "打开直播看板"},
+	"bar_open_app":      {"Open lolterm", "lolterm 열기", "打开 lolterm"},
 	"usage": {
 		`lolterm — esports terminal client
 

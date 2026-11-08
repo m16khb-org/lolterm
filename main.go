@@ -304,6 +304,8 @@ func runLoL(args []string) {
 		cmdRelay(args[1:])
 	case "replay":
 		cmdReplay(args[1:])
+	case "bar":
+		cmdBar(args[1:])
 	case "live":
 		cmdLive(args[1:])
 	case "streams":
@@ -333,6 +335,8 @@ Usage:
   lolterm lol replay     [-match ID [-g N]] [-l <league>]
                                                       replay a finished game from the stats feed (no -match: list recent matches);
                                                       keys: space pause · ←/→ ±10s · +/- speed 1×/2×/4× · b s o ctrl+l as relay · q quit
+  lolterm lol bar        [-l <league>] [-i Dur] [-1]   macOS menu bar summary of the live game (SwiftBar streamable plugin;
+                                                      polls every -i, default 5s; -1 prints one block)
   lolterm lol live       [-l <league>] [-w]            live games + real-time board
   lolterm lol streams    [-l <league>]                 broadcast stream links (where to watch)
   lolterm lol standings  [-l <league>]                 tournament bracket / standings

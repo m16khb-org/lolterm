@@ -220,7 +220,7 @@
 <div class="releasebar">
   <div class="wrap">
     <span class="tag">v0.3.2</span>
-    <span data-i18n="release_text">macOS 메뉴 막대 요약 · SwiftBar 플러그인</span>
+    <span data-i18n="release_text">macOS 메뉴 막대 요약 · SwiftBar 플러그인 · Homebrew 설치</span>
     <a href="https://github.com/m16khb-org/lolterm/releases/tag/v0.3.2" data-i18n="release_notes">릴리스 노트 →</a>
   </div>
 </div>
@@ -251,6 +251,7 @@
       <h1>lol<span>term</span></h1>
       <div class="hero-meta">
         <span class="tag">v0.3.2</span>
+        <span>Homebrew</span>
         <span>Go 1.21+</span>
         <span>GPL-3.0</span>
         <span>macOS · Linux · Windows</span>
@@ -438,6 +439,7 @@ BLG ON           Seraphine       3/1/5   22   6.7k</pre>
         <pre data-i18n-html="install_code2"><span class="c"># 소스 빌드</span>
 <span class="p">$</span> git clone https://github.com/m16khb-org/lolterm.git
 <span class="p">$</span> cd lolterm &amp;&amp; go build -o ~/.local/bin/lolterm .</pre>
+        <p class="req" style="margin-top:16px" data-i18n="install_note">처음에는 위의 전체 이름으로 설치합니다. brew tap 뒤에 brew install lolterm을 실행하면 신뢰 목록에 없는 tap이라 거부됩니다. 업데이트는 brew upgrade lolterm, 제거는 brew uninstall lolterm입니다.</p>
         <p class="req" style="margin-top:16px"><span data-i18n="install_req">자세한 사전 점검과 PATH 설정은</span> <a href="https://github.com/m16khb-org/lolterm/blob/main/INSTALL.md">INSTALL.md</a><span data-i18n="install_req2">를 참고하세요.</span></p>
       </div>
     </div>
@@ -535,7 +537,7 @@ const I18N = {
     bar_open_app: "lolterm 열기",
     page_title: "lolterm: 방송 없이 터미널에서 보는 LoL e스포츠",
     nav_features: "기능", nav_board: "보드", nav_install: "설치", nav_cli: "명령",
-    release_text: "macOS 메뉴 막대 요약 · SwiftBar 플러그인", release_notes: "릴리스 노트 →", nav_how: "작동 방식",
+    release_text: "macOS 메뉴 막대 요약 · SwiftBar 플러그인 · Homebrew 설치", release_notes: "릴리스 노트 →", nav_how: "작동 방식",
     native_eyebrow: "Terminal native", native_title: "키보드, 마우스, 세 가지 언어",
     native_desc: "lazygit처럼 창을 누르고, 행을 고르고, 휠로 스크롤합니다. 더블클릭으로 경기를 열고, 같은 화면에서 한국어·영어·중국어를 전환합니다.",
     chip_click: "클릭 · 선택", chip_double: "더블클릭 · 열기", chip_wheel: "휠 · 스크롤",
@@ -580,6 +582,7 @@ const I18N = {
     install_title: "설치", install_sub: "Homebrew가 있으면 Go 없이 설치됩니다. Windows나 Go 환경에서는 go install을 씁니다. 설치한 뒤에는 라이브 경기가 없어도 데모 보드로 바로 확인합니다.",
     install_code1: "<span class=\"c\"># Homebrew로 설치</span>\n<span class=\"p\">$</span> brew install m16khb-org/tap/lolterm\n\n<span class=\"c\"># Go 1.21 이상으로 설치</span>\n<span class=\"p\">$</span> go install github.com/m16khb-org/lolterm@latest\n\n<span class=\"c\"># 라이브 경기 없이 보드 확인</span>\n<span class=\"p\">$</span> lolterm lol demo\n\n<span class=\"c\"># 대화형 앱</span>\n<span class=\"p\">$</span> lolterm\n\n<span class=\"c\"># 최근 Worlds 경기</span>\n<span class=\"p\">$</span> lolterm lol schedule -l worlds -a -n 8",
     install_code2: "<span class=\"c\"># 소스 빌드</span>\n<span class=\"p\">$</span> git clone https://github.com/m16khb-org/lolterm.git\n<span class=\"p\">$</span> cd lolterm &amp;&amp; go build -o ~/.local/bin/lolterm .",
+    install_note: "처음에는 위의 전체 이름으로 설치합니다. brew tap 뒤에 brew install lolterm을 실행하면 신뢰 목록에 없는 tap이라 거부됩니다. 업데이트는 brew upgrade lolterm, 제거는 brew uninstall lolterm입니다.",
     install_req: "자세한 사전 점검과 PATH 설정은", install_req2: "를 참고하세요.",
     footer_tag: "lolterm · League of Legends esports terminal CLI",
     footer_note: "lolesports.com 비공식 엔드포인트 사용"
@@ -605,7 +608,7 @@ const I18N = {
     bar_open_app: "Open lolterm",
     page_title: "lolterm: League of Legends esports in your terminal, no stream needed",
     nav_features: "Features", nav_board: "Board", nav_install: "Install", nav_cli: "Commands",
-    release_text: "macOS menu bar summary · SwiftBar plugin", release_notes: "Release notes →", nav_how: "How it works",
+    release_text: "macOS menu bar summary · SwiftBar plugin · Homebrew install", release_notes: "Release notes →", nav_how: "How it works",
     native_eyebrow: "Terminal native", native_title: "Keyboard, mouse, three languages",
     native_desc: "Click a pane, pick a row, scroll with the wheel like lazygit. Double-click to open a match, and switch between Korean, English and Chinese on the same screen.",
     chip_click: "Click · select", chip_double: "Double-click · open", chip_wheel: "Wheel · scroll",
@@ -650,6 +653,7 @@ const I18N = {
     install_title: "Install", install_sub: "With Homebrew, no Go install is needed. On Windows or with a Go toolchain, use go install. Once installed, check the demo board right away, even with no live game.",
     install_code1: "<span class=\"c\"># install with Homebrew</span>\n<span class=\"p\">$</span> brew install m16khb-org/tap/lolterm\n\n<span class=\"c\"># or with Go 1.21+</span>\n<span class=\"p\">$</span> go install github.com/m16khb-org/lolterm@latest\n\n<span class=\"c\"># check the board without a live game</span>\n<span class=\"p\">$</span> lolterm lol demo\n\n<span class=\"c\"># interactive app</span>\n<span class=\"p\">$</span> lolterm\n\n<span class=\"c\"># recent Worlds matches</span>\n<span class=\"p\">$</span> lolterm lol schedule -l worlds -a -n 8",
     install_code2: "<span class=\"c\"># build from source</span>\n<span class=\"p\">$</span> git clone https://github.com/m16khb-org/lolterm.git\n<span class=\"p\">$</span> cd lolterm &amp;&amp; go build -o ~/.local/bin/lolterm .",
+    install_note: "Use the full name above for the first install: brew install lolterm after brew tap is refused because the tap isn't trusted yet. Update with brew upgrade lolterm and remove with brew uninstall lolterm.",
     install_req: "See", install_req2: "for the full preflight and PATH setup.",
     footer_tag: "lolterm · League of Legends esports terminal CLI",
     footer_note: "Uses the unofficial lolesports.com endpoints"
@@ -675,7 +679,7 @@ const I18N = {
     bar_open_app: "打开 lolterm",
     page_title: "lolterm：不开直播，在终端看英雄联盟电竞",
     nav_features: "功能", nav_board: "看板", nav_install: "安装", nav_cli: "命令",
-    release_text: "macOS 菜单栏摘要 · SwiftBar 插件", release_notes: "发布说明 →", nav_how: "工作原理",
+    release_text: "macOS 菜单栏摘要 · SwiftBar 插件 · Homebrew 安装", release_notes: "发布说明 →", nav_how: "工作原理",
     native_eyebrow: "Terminal native", native_title: "键盘、鼠标、三种语言",
     native_desc: "像 lazygit 一样点击面板、选择行、用滚轮滚动。双击打开比赛，并在同一界面切换韩语、英语和中文。",
     chip_click: "单击 · 选择", chip_double: "双击 · 打开", chip_wheel: "滚轮 · 滚动",
@@ -720,6 +724,7 @@ const I18N = {
     install_title: "安装", install_sub: "使用 Homebrew 无需安装 Go。Windows 或已有 Go 环境时请用 go install。安装后即使没有直播比赛，也能马上查看演示看板。",
     install_code1: "<span class=\"c\"># 使用 Homebrew 安装</span>\n<span class=\"p\">$</span> brew install m16khb-org/tap/lolterm\n\n<span class=\"c\"># 或使用 Go 1.21+ 安装</span>\n<span class=\"p\">$</span> go install github.com/m16khb-org/lolterm@latest\n\n<span class=\"c\"># 无需直播比赛，查看看板</span>\n<span class=\"p\">$</span> lolterm lol demo\n\n<span class=\"c\"># 交互式应用</span>\n<span class=\"p\">$</span> lolterm\n\n<span class=\"c\"># 最近的 Worlds 比赛</span>\n<span class=\"p\">$</span> lolterm lol schedule -l worlds -a -n 8",
     install_code2: "<span class=\"c\"># 从源码构建</span>\n<span class=\"p\">$</span> git clone https://github.com/m16khb-org/lolterm.git\n<span class=\"p\">$</span> cd lolterm &amp;&amp; go build -o ~/.local/bin/lolterm .",
+    install_note: "首次安装请使用上面的完整名称：在 brew tap 之后运行 brew install lolterm 会因该 tap 不受信任而被拒绝。使用 brew upgrade lolterm 更新，使用 brew uninstall lolterm 卸载。",
     install_req: "完整的预检和 PATH 设置请参阅", install_req2: "。",
     footer_tag: "lolterm · League of Legends esports terminal CLI",
     footer_note: "使用 lolesports.com 非官方接口"

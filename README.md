@@ -16,7 +16,7 @@
 
 [한국어](README.md) · [English](https://m16khb-org.github.io/lolterm/?lang=en) · [中文](https://m16khb-org.github.io/lolterm/?lang=zh) · [웹 소개](https://m16khb-org.github.io/lolterm/) · [설치](INSTALL.md)
 
-<sub>macOS · Linux · Windows · Go 1.21+</sub>
+<sub>macOS · Linux · Windows · Homebrew · Go 1.21+</sub>
 
 
 </div>
@@ -45,7 +45,7 @@
 
 <sub>`lolterm lol demo`의 출력입니다. 실제 터미널에서는 팀 색상이 함께 표시되고, 라이브 경기와 네트워크 없이도 이 화면을 바로 볼 수 있습니다.</sub>
 
-> **최신 릴리스는 v0.3.2입니다.** macOS 메뉴 막대에 라이브 경기 요약을 띄우는 `lol bar`가 추가되었습니다. 자세한 내용은 [릴리스 노트](https://github.com/m16khb-org/lolterm/releases/tag/v0.3.2)에서 확인하세요.
+> **최신 릴리스는 v0.3.2입니다.** macOS 메뉴 막대에 라이브 경기 요약을 띄우는 `lol bar`가 추가되었고, 이제 Homebrew로도 설치할 수 있습니다. 자세한 내용은 [릴리스 노트](https://github.com/m16khb-org/lolterm/releases/tag/v0.3.2)에서 확인하세요.
 
 [왜 lolterm](#왜-lolterm인가) · [한눈에](#한눈에) · [설치](#설치) · [빠른 시작](#빠른-시작) ·
 [대화형 앱](#대화형-앱) · [보드](#보드) · [메뉴 막대](#메뉴-막대-macos) · [작동 방식](#작동-방식) · [검증](#검증) ·
@@ -59,7 +59,7 @@
 - **계산한 값은 근거를 밝힙니다.** 게임 시계는 일시정지 구간을 빼고, 오브젝트 타이머는 피드의 처치 시각에 패치 규칙을 더해 구합니다. 유일한 추정값인 라이브 부활 시간에는 `~`를 붙입니다.
 - **터미널에서 끝납니다.** 라이브 보드와 다시 보기를 한 화면에서 보고, 키보드와 마우스로 조작합니다. UI는 한국어·영어·중국어를 지원합니다.
 - **터미널을 닫아도 스코어가 보입니다.** macOS에서는 SwiftBar 플러그인으로 킬 스코어, 골드 리드, 게임 시계를 메뉴 막대에 띄웁니다.
-- **설치가 가볍습니다.** Go 표준 라이브러리만 쓰는 단일 바이너리이고 외부 도구가 필요 없습니다.
+- **설치가 가볍습니다.** `brew install` 한 줄로 설치합니다. Go 표준 라이브러리만 쓰는 단일 바이너리이고, 실행할 때 외부 도구가 필요 없습니다.
 
 ## 한눈에
 
@@ -77,11 +77,14 @@
 
 ## 설치
 
-Homebrew가 있으면 Go를 따로 설치하지 않아도 됩니다. 업데이트는 `brew upgrade lolterm`으로 합니다.
+Homebrew가 있으면 Go를 따로 설치하지 않아도 됩니다.
 
 ```bash
 brew install m16khb-org/tap/lolterm
 ```
+
+처음 설치할 때는 위처럼 전체 이름을 씁니다. `brew tap m16khb-org/tap` 뒤에 `brew install lolterm`을 실행하면 신뢰 목록에 없는 tap이라 거부됩니다.
+업데이트는 `brew upgrade lolterm`, 제거는 `brew uninstall lolterm`으로 합니다.
 
 Go 1.21 이상이 있으면 `go install`로도 설치할 수 있습니다. 다른 도구는 필요 없습니다.
 

@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>lolterm — League of Legends esports in your terminal</title>
-<meta name="description" content="Live boards and replays that show only exact livestats-feed values. One Go binary, from Worlds to the LCK.">
-<meta property="og:title" content="lolterm — LoL esports terminal CLI">
-<meta property="og:description" content="Live boards and replays with exact feed values only. One Go binary.">
+<title>lolterm: League of Legends esports in your terminal, no stream needed</title>
+<meta name="description" content="Can't put the stream on? Follow League of Legends esports on a terminal board, with kills, gold, objectives and player stats straight from the livestats feed. Replays and a macOS menu bar summary included.">
+<meta property="og:title" content="lolterm: LoL esports in your terminal, no stream needed">
+<meta property="og:description" content="Live boards, replays and a macOS menu bar summary, from the livestats feed and never estimated from video. One Go binary.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23090d0c'/%3E%3Ctext x='32' y='44' font-family='monospace' font-size='34' font-weight='700' fill='%234de1ff' text-anchor='middle'%3Ee%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23090d0c'/%3E%3Ctext x='32' y='44' font-family='monospace' font-size='34' font-weight='700' fill='%234de1ff' text-anchor='middle'%3El%3C/text%3E%3C/svg%3E">
 <style>
   :root {
     --bg: #090d0c; --panel: #111715; --panel2: #0e1412;
@@ -185,14 +185,43 @@
     .contribute .wrap { display: block; }
     .contribute .cta { margin-top: 20px; }
   }
+  html:lang(ko) body { word-break: keep-all; overflow-wrap: break-word; }
+
+  .try { margin: 12px 0 0; color: var(--muted); font-size: 13px; }
+  .try .mono { color: #cfdcd5; }
+
+  .t-b { font-weight: 700; } .t-d { opacity: .62; } .t-k { color: var(--dim); }
+  .t-r { color: var(--red); } .t-c { color: var(--cyan); } .t-g { color: var(--green); } .t-y { color: #e7c34d; }
+
+  .menubar { background: #0b100e; border-top: 1px solid rgba(255,255,255,.05); }
+  .mb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: start; }
+  .mb-grid > * { min-width: 0; }
+  .mb-grid .section-head { margin-bottom: 22px; }
+  .mb-note { margin: 14px 0 6px; }
+  .mb { margin: 0; }
+  .mb-strip { border: 1px solid var(--line); border-radius: 10px 10px 0 0; background: #18211d; padding: 9px 14px;
+    color: var(--text); font-size: 13px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mb-menu { border: 1px solid var(--line); border-top: 0; border-radius: 0 0 10px 10px; background: var(--panel2);
+    padding: 12px 14px; font-size: 11.5px; line-height: 1.55; color: #cfe0d6; overflow-x: auto; }
+  .mb-menu table { border-collapse: collapse; margin: 6px 0; }
+  .mb-menu th { padding: 0 12px 0 0; font-weight: 400; text-align: left; white-space: nowrap; }
+  .mb-menu td { padding: 0 5px; white-space: nowrap; }
+  .mb-menu td.l { padding-left: 0; text-align: right; }
+  .mb-menu td.n { padding-left: 12px; color: var(--muted); }
+  .mb-menu pre { padding: 0; border: 0; border-radius: 0; background: transparent; overflow: visible; font-size: inherit; line-height: inherit; }
+  .mb-menu hr { border: 0; border-top: 1px solid var(--line); margin: 8px 0; }
+  .mb-dim { color: var(--muted); }
+  .mb-blue { color: #3b82f6; font-weight: 700; } .mb-red { color: #ef4444; font-weight: 700; }
+  .mb figcaption { margin-top: 10px; color: var(--dim); font-size: 12px; }
+  @media (max-width: 900px) { .mb-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 <div class="releasebar">
   <div class="wrap">
-    <span class="tag">v0.3.0</span>
-    <span data-i18n="release_text">창 크기별 레이아웃 · 일시정지 보정 · Windows 네이티브</span>
-    <a href="https://github.com/m16khb-org/lolterm/releases/tag/v0.3.0" data-i18n="release_notes">릴리스 노트 →</a>
+    <span class="tag">v0.3.2</span>
+    <span data-i18n="release_text">macOS 메뉴 막대 요약 · SwiftBar 플러그인</span>
+    <a href="https://github.com/m16khb-org/lolterm/releases/tag/v0.3.2" data-i18n="release_notes">릴리스 노트 →</a>
   </div>
 </div>
 <nav>
@@ -200,6 +229,7 @@
     <a class="brand" href="#top">lol<span>term</span></a>
     <div class="links">
       <a href="#features" data-i18n="nav_features">기능</a>
+      <a href="#menubar" data-i18n="nav_menubar">메뉴 막대</a>
       <a href="#board" data-i18n="nav_board">보드</a>
       <a href="#how" data-i18n="nav_how">작동 방식</a>
       <a href="#install" data-i18n="nav_install">설치</a>
@@ -217,19 +247,20 @@
 <header class="hero" id="top">
   <div class="wrap">
     <div>
-      <div class="eyebrow">Esports terminal cli</div>
+      <div class="eyebrow">LoL esports · terminal CLI</div>
       <h1>lol<span>term</span></h1>
       <div class="hero-meta">
-        <span class="tag">v0.3.0</span>
+        <span class="tag">v0.3.2</span>
         <span>Go 1.21+</span>
         <span>GPL-3.0</span>
         <span>macOS · Linux · Windows</span>
       </div>
-      <p class="tagline" data-i18n-html="hero_tagline">리그 오브 레전드 e스포츠를<br>터미널에서, 실시간으로.</p>
-      <p class="lede" data-i18n="hero_lede">라이브 보드와 공식 경기 다시 보기. livestats 피드가 주는 정확한 값만 보여 줍니다. Worlds부터 LCK까지 단일 Go 바이너리로.</p>
+      <p class="tagline" data-i18n-html="hero_tagline">방송을 못 틀어도,<br>경기는 터미널에서 봅니다.</p>
+      <p class="lede" data-i18n="hero_lede">Worlds부터 LCK까지, 킬·골드·오브젝트·선수 스탯을 터미널 보드로 따라갑니다. 점수와 스탯은 livestats 피드 값 그대로이고 영상으로 추정한 값은 없습니다. 끝난 세트는 되감아 보고, macOS에서는 메뉴 막대에 스코어를 띄웁니다.</p>
       <div class="cmd"><b>$</b> go install github.com/m16khb-org/lolterm@latest
         <button type="button" id="copy" data-i18n="copy" aria-label="Copy install command">복사</button>
       </div>
+      <p class="try" data-i18n-html="hero_try">라이브 경기가 없어도 <span class="mono">lolterm lol demo</span>로 보드를 확인할 수 있습니다.</p>
       <div class="cta">
         <a class="btn primary" href="#install" data-i18n="start">시작하기</a>
         <a class="btn ghost" href="https://github.com/m16khb-org/lolterm" data-i18n="github_view">GitHub에서 보기</a>
@@ -239,23 +270,23 @@
       <div class="term">
         <div class="bar"><i></i><i></i><i></i><span>lolterm lol demo</span></div>
 <pre aria-label="lolterm board">╔══════════════════════════════════════════════════════════════════════╗
-║ ● LIVE  MSI · Knockouts                                      ◷ 31:42 ║
-║ G2 Esports [2]                 BO5·G4                         [1] T1 ║
-║ KILLS  18 ███████████████████████████████████████████████████████ 27 ║
-║ GOLD  57.9k ██████████████████████████████████████████████████ 64.7k ║
-║ DRG 2 ── 4 ★SOUL     BRN 0 ── 1     TWR 4 ── 7     INB 0 ── 1        ║
-║ PLAYER         CHAMP        K/D/A   CS   GOLD       HP     #         ║
-║ G2 BrokenBlade Yasuo        5/8/3  205  10.6k ░░░░░░░░     0         ║
-║ G2 SkewMond    Skarner     4/6/10  175  11.5k ░░░░░░░░     0         ║
-║ G2 Caps        Aurora       3/3/5  296  12.5k ░░░░░░░░     0         ║
-║ G2 Hans Sama   Varus        6/5/8  265  15.5k ░░░░░░░░     0         ║
-║ G2 Labrov      Renata      0/5/13   22   7.8k ░░░░░░░░     0         ║
-║ T1 Doran       Gnar        4/4/12  228  12.6k ███░░░░░  1375         ║
-║ T1 Oner        LeeSin      4/5/13  211  12.8k ██████░░  2356         ║
-║ T1 Faker       Sylas       6/4/15  210  12.0k ██████░░  2085         ║
-║ T1 Peyz        Xayah       13/4/7  305  19.0k ██████░░  2348         ║
-║ T1 Keria       Rakan       0/1/20   21   8.3k ██░░░░░░   636         ║
-║ ◷ live feed · 10:44:17 KST                     ↻ 10s  b s o · q quit ║
+║ <span class="t-b t-r">●</span> <span class="t-b t-r">LIVE</span>  <span class="t-b">MSI</span> · Knockouts                                      <span class="t-k">◷</span> 31:42 ║
+║ <span class="t-b t-c">G2 Esports</span> <span class="t-b">[2]</span>                 <span class="t-d">BO5·G4</span>                         <span class="t-b">[1]</span> <span class="t-b t-r">T1</span> ║
+║ <span class="t-b">KILLS</span>  <span class="t-c">18</span> <span class="t-c">██████████████████████</span><span class="t-r">█████████████████████████████████</span> <span class="t-r">27</span> ║
+║ <span class="t-b">GOLD</span>  <span class="t-c">57.9k</span> <span class="t-c">████████████████████████</span><span class="t-r">██████████████████████████</span> <span class="t-r">64.7k</span> ║
+║ <span class="t-d">DRG</span> <span class="t-c">2</span> ── <span class="t-r">4 ★SOUL</span>     <span class="t-d">BRN</span> <span class="t-c">0</span> ── <span class="t-r">1</span>     <span class="t-d">TWR</span> <span class="t-c">4</span> ── <span class="t-r">7</span>     <span class="t-d">INB</span> <span class="t-c">0</span> ── <span class="t-r">1</span>        ║
+║ <span class="t-d">PLAYER        </span> <span class="t-d">CHAMP     </span> <span class="t-d">  K/D/A</span> <span class="t-d">  CS</span> <span class="t-d">  GOLD</span> <span class="t-d">      HP</span> <span class="t-d">    #</span>         ║
+║ <span class="t-c">G2 BrokenBlade</span> <span class="t-d">Yasuo     </span>   5/8/3  205  10.6k <span class="t-r">░░░░░░░░</span>     0         ║
+║ <span class="t-c">G2 SkewMond   </span> <span class="t-d">Skarner   </span>  4/6/10  175  11.5k <span class="t-r">░░░░░░░░</span>     0         ║
+║ <span class="t-c">G2 Caps       </span> <span class="t-d">Aurora    </span>   3/3/5  296  12.5k <span class="t-r">░░░░░░░░</span>     0         ║
+║ <span class="t-c">G2 Hans Sama  </span> <span class="t-d">Varus     </span>   6/5/8  265  15.5k <span class="t-r">░░░░░░░░</span>     0         ║
+║ <span class="t-c">G2 Labrov     </span> <span class="t-d">Renata    </span>  0/5/13   22   7.8k <span class="t-r">░░░░░░░░</span>     0         ║
+║ <span class="t-r">T1 Doran      </span> <span class="t-d">Gnar      </span>  4/4/12  228  12.6k <span class="t-y">███░░░░░</span>  1375         ║
+║ <span class="t-r">T1 Oner       </span> <span class="t-d">LeeSin    </span>  4/5/13  211  12.8k <span class="t-g">██████░░</span>  2356         ║
+║ <span class="t-r">T1 Faker      </span> <span class="t-d">Sylas     </span>  6/4/15  210  12.0k <span class="t-g">██████░░</span>  2085         ║
+║ <span class="t-r">T1 Peyz       </span> <span class="t-d">Xayah     </span>  13/4/7  305  19.0k <span class="t-g">██████░░</span>  2348         ║
+║ <span class="t-r">T1 Keria      </span> <span class="t-d">Rakan     </span>  0/1/20   21   8.3k <span class="t-y">██░░░░░░</span>   636         ║
+║ <span class="t-g">◷</span> live feed · 10:24:08 KST                     <span class="t-d">↻ 10s</span>  <span class="t-d">b s o · q quit</span> ║
 ╚══════════════════════════════════════════════════════════════════════╝</pre>
       </div>
     </div>
@@ -266,11 +297,11 @@
   <div class="wrap">
     <div class="section-head">
       <h2 data-i18n="features_title">경기 전체를 한 화면에</h2>
-      <p data-i18n="features_sub">점수판, 선수 스탯, 오브젝트 타이머를 피드의 값 그대로 보여 줍니다.</p>
+      <p data-i18n="features_sub">점수판과 선수 스탯은 피드 값 그대로 보여 주고, 오브젝트 타이머는 피드의 처치 시각으로 계산합니다.</p>
     </div>
     <div class="cards">
       <div class="card"><div class="ico">◉</div><h3 data-i18n="f1_title">라이브 보드</h3><p data-i18n="f1_desc">킬·골드 비례 바, 오브젝트 수, 선수별 KDA·CS·골드·HP 바를 0.5초마다 갱신합니다.</p></div>
-      <div class="card"><div class="ico">▶</div><h3 data-i18n="f2_title">다시 보기</h3><p data-i18n="f2_desc">livestats 피드로 끝난 세트를 되감아 재생합니다. 일시정지, ±10초, 1×/2×/4× 배속.</p></div>
+      <div class="card"><div class="ico">▶</div><h3 data-i18n="f2_title">다시 보기</h3><p data-i18n="f2_desc">끝난 세트의 스탯을 livestats 피드로 되감습니다. 영상이 아니라 보드로 재생하고, 일시정지·±10초·1×/2×/4× 배속을 지원합니다.</p></div>
       <div class="card"><div class="ico">◷</div><h3 data-i18n="f3_title">게임 시계</h3><p data-i18n="f3_desc">일시정지를 뺀 게임 시계입니다. 일시정지가 지난 뒤에 보드를 열어도 그 전의 일시정지를 피드 기록에서 찾아 반영합니다.</p></div>
       <div class="card"><div class="ico">☠</div><h3 data-i18n="f4_title">부활 카운트다운</h3><p data-i18n-html="f4_desc">사망한 선수는 <span class="mono">☠ ~Ns</span>로 표시합니다. 라이브는 추정(<span class="mono">~</span>), 다시 보기는 피드에서 읽은 정확한 시각입니다.</p></div>
       <div class="card"><div class="ico">⏱</div><h3 data-i18n="f5_title">오브젝트 타이머</h3><p data-i18n="f5_desc">용·엘더·바론의 다음 등장과 소울 포인트를 게임 시계 기준으로 계산합니다.</p></div>
@@ -279,6 +310,56 @@
   </div>
 </section>
 
+
+<section id="menubar" class="menubar">
+  <div class="wrap mb-grid">
+    <div>
+      <div class="section-head">
+        <div class="eyebrow" data-i18n="bar_eyebrow">macOS menu bar</div>
+        <h2 data-i18n="bar_title">터미널을 닫아도 스코어가 보입니다</h2>
+        <p data-i18n="bar_desc">lolterm lol bar를 SwiftBar 플러그인으로 연결하면 킬 스코어, 골드 리드, 게임 시계가 메뉴 막대에 표시됩니다. 클릭하면 세트 스코어, 오브젝트, 선수별 K/D/A가 펼쳐지고, 라이브 보드를 터미널에서 바로 열 수 있습니다.</p>
+      </div>
+      <pre class="mb-install"><span class="p">$</span> go install github.com/m16khb-org/lolterm@latest
+<span class="p">$</span> brew install --cask swiftbar</pre>
+      <p class="req mb-note" data-i18n="bar_note">v0.3.2 이상이 필요합니다.</p>
+      <p class="req"><a href="https://github.com/m16khb-org/lolterm#메뉴-막대-macos" data-i18n="bar_link">README의 SwiftBar 설정 방법 →</a></p>
+    </div>
+    <figure class="mb">
+      <div class="mb-strip mono">T1 3–10 BLG · BLG +5.8k · 23:19</div>
+      <div class="mb-menu mono">
+        <div class="mb-dim">WORLDS · Semifinals · BO5·G4 · patch 16.20</div>
+        <table>
+              <tr><th data-i18n="bar_series">세트</th><td class="l">T1 1</td><td>–</td><td>2 BLG</td><td class="n"></td></tr>
+              <tr><th data-i18n="bar_kills">킬</th><td class="l">3</td><td>–</td><td>10</td><td class="n"></td></tr>
+              <tr><th data-i18n="bar_gold">골드</th><td class="l">39.4k</td><td>–</td><td>45.2k</td><td class="n">BLG +5.8k</td></tr>
+              <tr><th data-i18n="bar_towers">타워</th><td class="l">1</td><td>–</td><td>3</td><td class="n"></td></tr>
+              <tr><th data-i18n="bar_inhibs">억제기</th><td class="l">0</td><td>–</td><td>0</td><td class="n"></td></tr>
+              <tr><th data-i18n="bar_dragons">용</th><td class="l">2</td><td>–</td><td>2</td><td class="n">T1 HEX OCN · BLG MTN MTN</td></tr>
+              <tr><th data-i18n="bar_barons">바론</th><td class="l">0</td><td>–</td><td>0</td><td class="n"></td></tr>
+        </table>
+        <div data-i18n="bar_timers">용 -- Mountain · 바론 UP</div>
+        <hr>
+        <div class="mb-blue">T1</div>
+        <pre>T1 Doran         Vayne           0/2/0  182   7.4k
+T1 Oner          MonkeyKing      1/2/1  173   8.3k
+T1 Faker         Akali           0/0/1  258   8.8k
+T1 Peyz          Lucian          1/3/1  234   9.4k
+T1 Keria         Milio           1/3/2   20   5.5k</pre>
+        <hr>
+        <div class="mb-red">BLG</div>
+        <pre>BLG Bin          Renekton        3/0/4  201   8.7k
+BLG Xun          Skarner         1/0/7  171   9.1k
+BLG Knight       Viktor          0/1/3  239   9.3k
+BLG Viper        Ashe            3/1/6  248  11.3k
+BLG ON           Seraphine       3/1/5   22   6.7k</pre>
+        <hr>
+        <div data-i18n="bar_open_board">라이브 보드 열기</div>
+        <div data-i18n="bar_open_app">lolterm 열기</div>
+      </div>
+      <figcaption data-i18n="bar_caption">실제 lol bar 출력: Worlds 4강, T1 대 BLG 4세트</figcaption>
+    </figure>
+  </div>
+</section>
 
 <section class="native">
   <div class="wrap">
@@ -304,8 +385,8 @@
 <section id="board">
   <div class="wrap">
     <div class="section-head">
-      <h2 data-i18n="board_title">피드에 있는 값만 보여 줍니다</h2>
-      <p data-i18n="board_desc">킬·골드·오브젝트·KDA·CS·체력은 livestats 피드 그대로입니다. 영상에서 읽은 추정값은 쓰지 않습니다.</p>
+      <h2 data-i18n="board_title">피드에 없는 값은 그리지 않습니다</h2>
+      <p data-i18n="board_desc">킬·골드·오브젝트·KDA·CS·체력은 livestats 피드 그대로입니다. 챔피언 위치처럼 피드에 없는 값은 영상으로 추정하지 않고 표시하지도 않습니다.</p>
     </div>
     <div class="legend row">
       <div><span class="dot c-green"></span><span data-i18n="legend_exact">정확: 킬 · 골드 · 오브젝트 · KDA · CS · 체력</span></div>
@@ -336,11 +417,14 @@
   <div class="wrap">
     <div class="section-head">
       <h2 data-i18n="install_title">설치</h2>
-      <p data-i18n="install_sub">Go 1.21 이상. 다른 도구는 필요 없습니다.</p>
+      <p data-i18n="install_sub">Go 1.21 이상만 있으면 됩니다. 설치한 뒤에는 라이브 경기가 없어도 데모 보드로 바로 확인합니다.</p>
     </div>
     <div class="install-grid">
       <pre data-i18n-html="install_code1"><span class="c"># 바이너리 설치</span>
 <span class="p">$</span> go install github.com/m16khb-org/lolterm@latest
+
+<span class="c"># 라이브 경기 없이 보드 확인</span>
+<span class="p">$</span> lolterm lol demo
 
 <span class="c"># 대화형 앱</span>
 <span class="p">$</span> lolterm
@@ -362,7 +446,7 @@
     <div class="section-head">
       <div class="eyebrow" data-i18n="cli_eyebrow">Command line</div>
       <h2 data-i18n="cli_title">앱 밖에서도 같은 피드</h2>
-      <p data-i18n="cli_sub">relay와 replay는 풀스크린 보드를, 나머지 명령은 텍스트를 출력합니다. 전체 플래그는 lolterm lol help에 있습니다.</p>
+      <p data-i18n="cli_sub">relay와 replay는 풀스크린 보드를, bar는 SwiftBar 플러그인 형식을, 나머지 명령은 텍스트를 출력합니다. 전체 플래그는 lolterm lol help에 있습니다.</p>
     </div>
     <pre data-i18n-html="cli_code"><span class="c"># 풀스크린 보드</span>
 <span class="p">$</span> lolterm lol relay -l msi            <span class="c"># 실시간 중계 · -i 폴링 간격 · -1 한 프레임</span>
@@ -416,7 +500,7 @@
 <footer>
   <div class="wrap">
     <span data-i18n="footer_tag">lolterm · League of Legends esports terminal CLI</span>
-    <span data-i18n="footer_version">v0.3.0 · GPL-3.0-or-later</span>
+    <span data-i18n="footer_version">v0.3.2 · GPL-3.0-or-later</span>
     <a href="https://github.com/m16khb-org/lolterm">GitHub</a>
     <a href="https://github.com/m16khb-org/lolterm/releases" data-i18n="footer_releases">릴리스</a>
     <a href="https://github.com/m16khb-org/lolterm/blob/main/INSTALL.md" data-i18n="nav_install">설치</a>
@@ -428,15 +512,33 @@
 <script>
 const I18N = {
   ko: {
-    page_title: "lolterm — 리그 오브 레전드 e스포츠를 터미널에서",
+    hero_try: "라이브 경기가 없어도 <span class=\"mono\">lolterm lol demo</span>로 보드를 확인할 수 있습니다.",
+    nav_menubar: "메뉴 막대",
+    bar_eyebrow: "macOS menu bar",
+    bar_title: "터미널을 닫아도 스코어가 보입니다",
+    bar_desc: "lolterm lol bar를 SwiftBar 플러그인으로 연결하면 킬 스코어, 골드 리드, 게임 시계가 메뉴 막대에 표시됩니다. 클릭하면 세트 스코어, 오브젝트, 선수별 K/D/A가 펼쳐지고, 라이브 보드를 터미널에서 바로 열 수 있습니다.",
+    bar_note: "v0.3.2 이상이 필요합니다.",
+    bar_link: "README의 SwiftBar 설정 방법 →",
+    bar_caption: "실제 lol bar 출력: Worlds 4강, T1 대 BLG 4세트",
+    bar_series: "세트",
+    bar_kills: "킬",
+    bar_gold: "골드",
+    bar_towers: "타워",
+    bar_inhibs: "억제기",
+    bar_dragons: "용",
+    bar_barons: "바론",
+    bar_timers: "용 -- Mountain · 바론 UP",
+    bar_open_board: "라이브 보드 열기",
+    bar_open_app: "lolterm 열기",
+    page_title: "lolterm: 방송 없이 터미널에서 보는 LoL e스포츠",
     nav_features: "기능", nav_board: "보드", nav_install: "설치", nav_cli: "명령",
-    release_text: "창 크기별 레이아웃 · 일시정지 보정 · Windows 네이티브", release_notes: "릴리스 노트 →", nav_how: "작동 방식",
+    release_text: "macOS 메뉴 막대 요약 · SwiftBar 플러그인", release_notes: "릴리스 노트 →", nav_how: "작동 방식",
     native_eyebrow: "Terminal native", native_title: "키보드, 마우스, 세 가지 언어",
     native_desc: "lazygit처럼 창을 누르고, 행을 고르고, 휠로 스크롤합니다. 더블클릭으로 경기를 열고, 같은 화면에서 한국어·영어·중국어를 전환합니다.",
     chip_click: "클릭 · 선택", chip_double: "더블클릭 · 열기", chip_wheel: "휠 · 스크롤",
     chip_move: "j k ↑ ↓ · 이동", chip_enter: "Enter · 열기", chip_esc: "Esc · 뒤로", chip_opts: ", · 옵션", chip_help: "? · 도움말",
     cli_eyebrow: "Command line", cli_title: "앱 밖에서도 같은 피드",
-    cli_sub: "relay와 replay는 풀스크린 보드를, 나머지 명령은 텍스트를 출력합니다. 전체 플래그는 lolterm lol help에 있습니다.",
+    cli_sub: "relay와 replay는 풀스크린 보드를, bar는 SwiftBar 플러그인 형식을, 나머지 명령은 텍스트를 출력합니다. 전체 플래그는 lolterm lol help에 있습니다.",
     cli_code: '<span class="c"># 풀스크린 보드</span>\n<span class="p">$</span> lolterm lol relay -l msi            <span class="c"># 실시간 중계 · -i 폴링 간격 · -1 한 프레임</span>\n<span class="p">$</span> lolterm lol replay                  <span class="c"># 최근 종료 경기와 -match 에 쓸 id 목록</span>\n<span class="p">$</span> lolterm lol replay -match ID -g 2   <span class="c"># 끝난 세트 다시 보기</span>\n\n<span class="c"># 텍스트 출력</span>\n<span class="p">$</span> lolterm lol live -l lck -w          <span class="c"># 라이브 경기와 점수판 · -w 30초마다 갱신</span>\n<span class="p">$</span> lolterm lol schedule -l worlds -a   <span class="c"># 예정 경기 · -a 최근 종료 경기</span>\n<span class="p">$</span> lolterm lol standings -l msi        <span class="c"># 대진표·순위</span>\n<span class="p">$</span> lolterm lol streams -l lck          <span class="c"># 중계 링크</span>\n<span class="p">$</span> lolterm lol leagues                 <span class="c"># -l 에 쓸 리그 slug 목록</span>\n<span class="p">$</span> lolterm lol demo                    <span class="c"># 네트워크 없이 보드 한 프레임</span>\n\n<span class="c"># macOS 메뉴 막대</span>\n<span class="p">$</span> lolterm lol bar -l lck             <span class="c"># 라이브 경기 요약 · SwiftBar 스트리밍 플러그인</span>',
     how_eyebrow: "Under the hood", how_title: "피드에서 보드까지",
     how_sub: "모든 값은 livestats 피드에서 옵니다. 영상은 쓰지 않습니다.",
@@ -453,42 +555,60 @@ const I18N = {
     contrib_eyebrow: "Open source", contrib_title: "같이 만들어요",
     contrib_sub: "버그 제보, 경기별 검증 결과, 문서 수정, 새 아이디어 모두 환영합니다. 재현 정보를 함께 적어 주시면 큰 도움이 됩니다.",
     contrib_issue: "이슈 열기", contrib_guide: "기여 가이드",
-    footer_version: "v0.3.0 · GPL-3.0-or-later", footer_releases: "릴리스",
+    footer_version: "v0.3.2 · GPL-3.0-or-later", footer_releases: "릴리스",
     footer_disclaimer: "Riot Games와 공식적인 관련이 없습니다.",
 
-    hero_tagline: "리그 오브 레전드 e스포츠를<br>터미널에서, 실시간으로.",
-    hero_lede: "라이브 보드와 공식 경기 다시 보기. livestats 피드가 주는 정확한 값만 보여 줍니다. Worlds부터 LCK까지 단일 Go 바이너리로.",
+    hero_tagline: "방송을 못 틀어도,<br>경기는 터미널에서 봅니다.",
+    hero_lede: "Worlds부터 LCK까지, 킬·골드·오브젝트·선수 스탯을 터미널 보드로 따라갑니다. 점수와 스탯은 livestats 피드 값 그대로이고 영상으로 추정한 값은 없습니다. 끝난 세트는 되감아 보고, macOS에서는 메뉴 막대에 스코어를 띄웁니다.",
     copy: "복사", start: "시작하기", github_view: "GitHub에서 보기",
     features_title: "경기 전체를 한 화면에",
-    features_sub: "점수판, 선수 스탯, 오브젝트 타이머를 피드의 값 그대로 보여 줍니다.",
+    features_sub: "점수판과 선수 스탯은 피드 값 그대로 보여 주고, 오브젝트 타이머는 피드의 처치 시각으로 계산합니다.",
     f1_title: "라이브 보드", f1_desc: "킬·골드 비례 바, 오브젝트 수, 선수별 KDA·CS·골드·HP 바를 0.5초마다 갱신합니다.",
-    f2_title: "다시 보기", f2_desc: "livestats 피드로 끝난 세트를 되감아 재생합니다. 일시정지, ±10초, 1×/2×/4× 배속.",
+    f2_title: "다시 보기", f2_desc: "끝난 세트의 스탯을 livestats 피드로 되감습니다. 영상이 아니라 보드로 재생하고, 일시정지·±10초·1×/2×/4× 배속을 지원합니다.",
     f3_title: "게임 시계", f3_desc: "일시정지를 뺀 게임 시계입니다. 일시정지가 지난 뒤에 보드를 열어도 그 전의 일시정지를 피드 기록에서 찾아 반영합니다.",
     f4_title: "부활 카운트다운", f4_desc: '사망한 선수는 <span class="mono">☠ ~Ns</span>로 표시합니다. 라이브는 추정(<span class="mono">~</span>), 다시 보기는 피드에서 읽은 정확한 시각입니다.',
     f5_title: "오브젝트 타이머", f5_desc: "용·엘더·바론의 다음 등장과 소울 포인트를 게임 시계 기준으로 계산합니다.",
     f6_title: "보기 전환", f6_desc: "stats → items → runes, 골드 차이 스파크라인, 오브젝트 맵을 키 하나로 전환합니다.",
-    board_title: "피드에 있는 값만 보여 줍니다",
-    board_desc: "킬·골드·오브젝트·KDA·CS·체력은 livestats 피드 그대로입니다. 영상에서 읽은 추정값은 쓰지 않습니다.",
+    board_title: "피드에 없는 값은 그리지 않습니다",
+    board_desc: "킬·골드·오브젝트·KDA·CS·체력은 livestats 피드 그대로입니다. 챔피언 위치처럼 피드에 없는 값은 영상으로 추정하지 않고 표시하지도 않습니다.",
     legend_exact: "정확: 킬 · 골드 · 오브젝트 · KDA · CS · 체력",
     legend_dead: "부활: ☠ + 초. 라이브는 추정(~), 다시 보기는 정확",
     legend_none: "없음: 챔피언 위치 · 텔레포트·귀환 · 밴픽 (피드에 없음)",
-    install_title: "설치", install_sub: "Go 1.21 이상. 다른 도구는 필요 없습니다.",
-    install_code1: '<span class="c"># 바이너리 설치</span>\n<span class="p">$</span> go install github.com/m16khb-org/lolterm@latest\n\n<span class="c"># 대화형 앱</span>\n<span class="p">$</span> lolterm\n\n<span class="c"># 최근 Worlds 경기</span>\n<span class="p">$</span> lolterm lol schedule -l worlds -a -n 8',
-    install_code2: '<span class="c"># 소스 빌드</span>\n<span class="p">$</span> git clone https://github.com/m16khb-org/lolterm.git\n<span class="p">$</span> cd lolterm &amp;&amp; go build -o ~/.local/bin/lolterm .',
+    install_title: "설치", install_sub: "Go 1.21 이상만 있으면 됩니다. 설치한 뒤에는 라이브 경기가 없어도 데모 보드로 바로 확인합니다.",
+    install_code1: "<span class=\"c\"># 바이너리 설치</span>\n<span class=\"p\">$</span> go install github.com/m16khb-org/lolterm@latest\n\n<span class=\"c\"># 라이브 경기 없이 보드 확인</span>\n<span class=\"p\">$</span> lolterm lol demo\n\n<span class=\"c\"># 대화형 앱</span>\n<span class=\"p\">$</span> lolterm\n\n<span class=\"c\"># 최근 Worlds 경기</span>\n<span class=\"p\">$</span> lolterm lol schedule -l worlds -a -n 8",
+    install_code2: "<span class=\"c\"># 소스 빌드</span>\n<span class=\"p\">$</span> git clone https://github.com/m16khb-org/lolterm.git\n<span class=\"p\">$</span> cd lolterm &amp;&amp; go build -o ~/.local/bin/lolterm .",
     install_req: "자세한 사전 점검과 PATH 설정은", install_req2: "를 참고하세요.",
     footer_tag: "lolterm · League of Legends esports terminal CLI",
     footer_note: "lolesports.com 비공식 엔드포인트 사용"
   },
   en: {
-    page_title: "lolterm — League of Legends esports in your terminal",
+    hero_try: "No live game right now? <span class=\"mono\">lolterm lol demo</span> draws the board anyway.",
+    nav_menubar: "Menu bar",
+    bar_eyebrow: "macOS menu bar",
+    bar_title: "Close the terminal, keep the score",
+    bar_desc: "Run lolterm lol bar as a SwiftBar plugin and the kill score, gold lead and game clock sit in your menu bar. Click for the series score, objectives and every player's K/D/A, or open the live board in a terminal.",
+    bar_note: "Requires v0.3.2 or later.",
+    bar_link: "SwiftBar setup in the README (Korean) →",
+    bar_caption: "Real lol bar output: Worlds semifinal, T1 vs BLG, game 4",
+    bar_series: "Series",
+    bar_kills: "Kills",
+    bar_gold: "Gold",
+    bar_towers: "Towers",
+    bar_inhibs: "Inhibs",
+    bar_dragons: "Dragons",
+    bar_barons: "Barons",
+    bar_timers: "Dragon -- Mountain · Baron UP",
+    bar_open_board: "Open the live board",
+    bar_open_app: "Open lolterm",
+    page_title: "lolterm: League of Legends esports in your terminal, no stream needed",
     nav_features: "Features", nav_board: "Board", nav_install: "Install", nav_cli: "Commands",
-    release_text: "Layouts for every window size · Pause-corrected clock · Native Windows", release_notes: "Release notes →", nav_how: "How it works",
+    release_text: "macOS menu bar summary · SwiftBar plugin", release_notes: "Release notes →", nav_how: "How it works",
     native_eyebrow: "Terminal native", native_title: "Keyboard, mouse, three languages",
     native_desc: "Click a pane, pick a row, scroll with the wheel like lazygit. Double-click to open a match, and switch between Korean, English and Chinese on the same screen.",
     chip_click: "Click · select", chip_double: "Double-click · open", chip_wheel: "Wheel · scroll",
     chip_move: "j k ↑ ↓ · move", chip_enter: "Enter · open", chip_esc: "Esc · back", chip_opts: ", · options", chip_help: "? · help",
     cli_eyebrow: "Command line", cli_title: "The same feed outside the app",
-    cli_sub: "relay and replay draw a full-screen board; the other commands print text. lolterm lol help lists every flag.",
+    cli_sub: "relay and replay draw a full-screen board, bar prints the SwiftBar plugin format, and the other commands print text. lolterm lol help lists every flag.",
     cli_code: '<span class="c"># full-screen boards</span>\n<span class="p">$</span> lolterm lol relay -l msi            <span class="c"># live board · -i poll interval · -1 one frame</span>\n<span class="p">$</span> lolterm lol replay                  <span class="c"># recent finished matches and their -match ids</span>\n<span class="p">$</span> lolterm lol replay -match ID -g 2   <span class="c"># replay a finished game</span>\n\n<span class="c"># text output</span>\n<span class="p">$</span> lolterm lol live -l lck -w          <span class="c"># live games with a scoreboard · -w refresh every 30s</span>\n<span class="p">$</span> lolterm lol schedule -l worlds -a   <span class="c"># upcoming matches · -a recent results</span>\n<span class="p">$</span> lolterm lol standings -l msi        <span class="c"># bracket and standings</span>\n<span class="p">$</span> lolterm lol streams -l lck          <span class="c"># broadcast stream links</span>\n<span class="p">$</span> lolterm lol leagues                 <span class="c"># league slugs for -l</span>\n<span class="p">$</span> lolterm lol demo                    <span class="c"># one board frame, no network</span>\n\n<span class="c"># macOS menu bar</span>\n<span class="p">$</span> lolterm lol bar -l lck             <span class="c"># live game summary · SwiftBar streamable plugin</span>',
     how_eyebrow: "Under the hood", how_title: "From feed to board",
     how_sub: "Every value comes from the livestats feed. No video is used.",
@@ -505,42 +625,60 @@ const I18N = {
     contrib_eyebrow: "Open source", contrib_title: "Build it with us",
     contrib_sub: "Bug reports, per-match verification results, documentation fixes and new ideas are all welcome. Reproduction details help a lot.",
     contrib_issue: "Open an issue", contrib_guide: "Contributing guide",
-    footer_version: "v0.3.0 · GPL-3.0-or-later", footer_releases: "Releases",
+    footer_version: "v0.3.2 · GPL-3.0-or-later", footer_releases: "Releases",
     footer_disclaimer: "Not affiliated with Riot Games.",
 
-    hero_tagline: "League of Legends esports,<br>in your terminal.",
-    hero_lede: "Live boards and replays of official matches, showing exactly the values the livestats feed provides. One Go binary, from Worlds to the LCK.",
+    hero_tagline: "Can't put the stream on?<br>Watch the game in your terminal.",
+    hero_lede: "From Worlds to the LCK, follow kills, gold, objectives and player stats on a terminal board. Scores and stats are the livestats feed's values, and nothing is estimated from video. Rewind finished games, or keep the score in your macOS menu bar.",
     copy: "Copy", start: "Get started", github_view: "View on GitHub",
     features_title: "The whole match on one screen",
-    features_sub: "Scoreboard, player stats and objective timers, with the feed's values as they are.",
+    features_sub: "The scoreboard and player stats are the feed's values as they are; objective timers are calculated from the kill times in the feed.",
     f1_title: "Live board", f1_desc: "Kill and gold bars, objective counts and per-player KDA, CS, gold and HP, refreshed every 0.5s.",
-    f2_title: "Replays", f2_desc: "Rewind a finished game from the livestats feed. Pause, ±10s, 1×/2×/4× speed.",
+    f2_title: "Replays", f2_desc: "Rewind a finished game's stats from the livestats feed: a board instead of video, with pause, ±10s and 1×/2×/4× speed.",
     f3_title: "Game clock", f3_desc: "A game clock with pauses removed. Open the board after a pause and the earlier pauses are still found in the feed history.",
     f4_title: "Respawn countdown", f4_desc: 'A dead player shows <span class="mono">☠ ~Ns</span>. Live is an estimate (<span class="mono">~</span>); a replay reads the exact time from the feed.',
     f5_title: "Objective timers", f5_desc: "Next dragon, elder and baron spawn, plus soul point, on the game clock.",
     f6_title: "View toggles", f6_desc: "Switch stats → items → runes, the gold-lead sparkline and the objective map with one key each.",
-    board_title: "Only values the feed has",
-    board_desc: "Kills, gold, objectives, KDA, CS and health are the livestats feed's values as they are. Nothing is estimated from video.",
+    board_title: "If the feed doesn't have it, it isn't drawn",
+    board_desc: "Kills, gold, objectives, KDA, CS and health are the livestats feed's values as they are. Champion positions and anything else the feed lacks are neither estimated from video nor shown.",
     legend_exact: "Exact: kills · gold · objectives · KDA · CS · health",
     legend_dead: "Respawn: ☠ + seconds. Live is estimated (~), replay is exact",
     legend_none: "Not shown: champion positions · teleports and recalls · bans and picks (not in the feed)",
-    install_title: "Install", install_sub: "Go 1.21+. No other tools are needed.",
-    install_code1: '<span class="c"># install the binary</span>\n<span class="p">$</span> go install github.com/m16khb-org/lolterm@latest\n\n<span class="c"># interactive app</span>\n<span class="p">$</span> lolterm\n\n<span class="c"># recent Worlds matches</span>\n<span class="p">$</span> lolterm lol schedule -l worlds -a -n 8',
-    install_code2: '<span class="c"># build from source</span>\n<span class="p">$</span> git clone https://github.com/m16khb-org/lolterm.git\n<span class="p">$</span> cd lolterm &amp;&amp; go build -o ~/.local/bin/lolterm .',
+    install_title: "Install", install_sub: "All you need is Go 1.21+. Once installed, check the demo board right away, even with no live game.",
+    install_code1: "<span class=\"c\"># install the binary</span>\n<span class=\"p\">$</span> go install github.com/m16khb-org/lolterm@latest\n\n<span class=\"c\"># check the board without a live game</span>\n<span class=\"p\">$</span> lolterm lol demo\n\n<span class=\"c\"># interactive app</span>\n<span class=\"p\">$</span> lolterm\n\n<span class=\"c\"># recent Worlds matches</span>\n<span class=\"p\">$</span> lolterm lol schedule -l worlds -a -n 8",
+    install_code2: "<span class=\"c\"># build from source</span>\n<span class=\"p\">$</span> git clone https://github.com/m16khb-org/lolterm.git\n<span class=\"p\">$</span> cd lolterm &amp;&amp; go build -o ~/.local/bin/lolterm .",
     install_req: "See", install_req2: "for the full preflight and PATH setup.",
     footer_tag: "lolterm · League of Legends esports terminal CLI",
     footer_note: "Uses the unofficial lolesports.com endpoints"
   },
   zh: {
-    page_title: "lolterm — 在终端里看英雄联盟电竞赛事",
+    hero_try: "当前没有直播比赛？<span class=\"mono\">lolterm lol demo</span> 也能显示看板。",
+    nav_menubar: "菜单栏",
+    bar_eyebrow: "macOS menu bar",
+    bar_title: "关掉终端，比分仍在菜单栏",
+    bar_desc: "把 lolterm lol bar 作为 SwiftBar 插件运行，击杀比分、金币差和游戏时钟就会显示在菜单栏。点击可查看系列赛比分、资源和每位选手的 K/D/A，也可以直接在终端打开直播看板。",
+    bar_note: "需要 v0.3.2 或更高版本。",
+    bar_link: "README 中的 SwiftBar 设置方法（韩语）→",
+    bar_caption: "lol bar 实际输出：Worlds 半决赛，T1 对 BLG 第 4 局",
+    bar_series: "系列赛",
+    bar_kills: "击杀",
+    bar_gold: "金币",
+    bar_towers: "防御塔",
+    bar_inhibs: "兵营",
+    bar_dragons: "小龙",
+    bar_barons: "大龙",
+    bar_timers: "小龙 -- Mountain · 大龙 UP",
+    bar_open_board: "打开直播看板",
+    bar_open_app: "打开 lolterm",
+    page_title: "lolterm：不开直播，在终端看英雄联盟电竞",
     nav_features: "功能", nav_board: "看板", nav_install: "安装", nav_cli: "命令",
-    release_text: "适配各种窗口尺寸 · 暂停校正的时钟 · 原生支持 Windows", release_notes: "发布说明 →", nav_how: "工作原理",
+    release_text: "macOS 菜单栏摘要 · SwiftBar 插件", release_notes: "发布说明 →", nav_how: "工作原理",
     native_eyebrow: "Terminal native", native_title: "键盘、鼠标、三种语言",
     native_desc: "像 lazygit 一样点击面板、选择行、用滚轮滚动。双击打开比赛，并在同一界面切换韩语、英语和中文。",
     chip_click: "单击 · 选择", chip_double: "双击 · 打开", chip_wheel: "滚轮 · 滚动",
     chip_move: "j k ↑ ↓ · 移动", chip_enter: "Enter · 打开", chip_esc: "Esc · 返回", chip_opts: ", · 选项", chip_help: "? · 帮助",
     cli_eyebrow: "Command line", cli_title: "在应用之外使用同一数据流",
-    cli_sub: "relay 和 replay 绘制全屏看板，其余命令输出文本。lolterm lol help 列出全部参数。",
+    cli_sub: "relay 和 replay 绘制全屏看板，bar 输出 SwiftBar 插件格式，其余命令输出文本。lolterm lol help 列出全部参数。",
     cli_code: '<span class="c"># 全屏看板</span>\n<span class="p">$</span> lolterm lol relay -l msi            <span class="c"># 直播看板 · -i 轮询间隔 · -1 只输出一帧</span>\n<span class="p">$</span> lolterm lol replay                  <span class="c"># 最近结束的比赛及其 -match id</span>\n<span class="p">$</span> lolterm lol replay -match ID -g 2   <span class="c"># 回放已结束的对局</span>\n\n<span class="c"># 文本输出</span>\n<span class="p">$</span> lolterm lol live -l lck -w          <span class="c"># 直播比赛与记分板 · -w 每 30 秒刷新</span>\n<span class="p">$</span> lolterm lol schedule -l worlds -a   <span class="c"># 即将开始的比赛 · -a 最近结果</span>\n<span class="p">$</span> lolterm lol standings -l msi        <span class="c"># 对阵表与排名</span>\n<span class="p">$</span> lolterm lol streams -l lck          <span class="c"># 直播链接</span>\n<span class="p">$</span> lolterm lol leagues                 <span class="c"># 可用于 -l 的联赛 slug</span>\n<span class="p">$</span> lolterm lol demo                    <span class="c"># 无需网络的一帧看板</span>\n\n<span class="c"># macOS 菜单栏</span>\n<span class="p">$</span> lolterm lol bar -l lck             <span class="c"># 直播比赛摘要 · SwiftBar 流式插件</span>',
     how_eyebrow: "Under the hood", how_title: "从数据流到看板",
     how_sub: "所有数值都来自 livestats 数据流，不使用视频。",
@@ -557,28 +695,28 @@ const I18N = {
     contrib_eyebrow: "Open source", contrib_title: "一起构建",
     contrib_sub: "欢迎提交问题、逐场验证结果、文档修改和新想法。附上复现信息会很有帮助。",
     contrib_issue: "提交问题", contrib_guide: "贡献指南",
-    footer_version: "v0.3.0 · GPL-3.0-or-later", footer_releases: "发布",
+    footer_version: "v0.3.2 · GPL-3.0-or-later", footer_releases: "发布",
     footer_disclaimer: "与 Riot Games 无官方关联。",
 
-    hero_tagline: "在终端里看<br>英雄联盟电竞赛事。",
-    hero_lede: "官方比赛的直播看板与回放，只显示 livestats 数据流提供的准确数值。一个 Go 二进制，覆盖 Worlds 到 LCK。",
+    hero_tagline: "不方便开直播，<br>也能在终端看比赛。",
+    hero_lede: "从 Worlds 到 LCK，在终端看板上跟进击杀、金币、资源和选手数据。比分和数据直接来自 livestats 数据流，不根据视频估算。已结束的对局可以回放，macOS 还能把比分放进菜单栏。",
     copy: "复制", start: "开始使用", github_view: "在 GitHub 查看",
     features_title: "一场比赛，一屏尽览",
-    features_sub: "记分板、选手数据和资源计时，直接显示数据流中的数值。",
+    features_sub: "记分板和选手数据直接显示数据流中的数值，资源计时根据数据流中的击杀时刻计算。",
     f1_title: "直播看板", f1_desc: "击杀/金币比例条、资源计数，以及每位选手的 KDA、补刀、金币和生命值，每 0.5 秒刷新。",
-    f2_title: "回放", f2_desc: "用 livestats 数据流回放已结束的对局。暂停、±10 秒、1×/2×/4×。",
+    f2_title: "回放", f2_desc: "用 livestats 数据流回放已结束对局的数据。以看板而非视频播放，支持暂停、±10 秒和 1×/2×/4×。",
     f3_title: "游戏时钟", f3_desc: "扣除暂停时间的游戏时钟。即使暂停之后才打开看板，也能从数据流历史中找到此前的暂停。",
     f4_title: "复活倒计时", f4_desc: '阵亡选手显示 <span class="mono">☠ ~Ns</span>。实时为估算（<span class="mono">~</span>），回放则读取数据流中的准确时刻。',
     f5_title: "资源计时", f5_desc: "按游戏时钟计算下一条小龙、远古龙和大龙的刷新，以及龙魂点。",
     f6_title: "视图切换", f6_desc: "一个按键切换 stats → items → runes、金币差曲线和资源地图。",
-    board_title: "只显示数据流里有的数值",
-    board_desc: "击杀、金币、资源、KDA、补刀和生命值都直接来自 livestats 数据流。不使用从视频估算的值。",
+    board_title: "数据流里没有的，就不画",
+    board_desc: "击杀、金币、资源、KDA、补刀和生命值都直接来自 livestats 数据流。英雄位置等数据流中没有的值，既不根据视频估算，也不显示。",
     legend_exact: "精确：击杀 · 金币 · 资源 · KDA · 补刀 · 生命值",
     legend_dead: "复活：☠ + 秒数。实时为估算（~），回放为精确",
     legend_none: "不显示：英雄位置 · 传送与回城 · 禁用与选用（数据流中没有）",
-    install_title: "安装", install_sub: "需要 Go 1.21+，无需其他工具。",
-    install_code1: '<span class="c"># 安装二进制</span>\n<span class="p">$</span> go install github.com/m16khb-org/lolterm@latest\n\n<span class="c"># 交互式应用</span>\n<span class="p">$</span> lolterm\n\n<span class="c"># 最近的 Worlds 比赛</span>\n<span class="p">$</span> lolterm lol schedule -l worlds -a -n 8',
-    install_code2: '<span class="c"># 从源码构建</span>\n<span class="p">$</span> git clone https://github.com/m16khb-org/lolterm.git\n<span class="p">$</span> cd lolterm &amp;&amp; go build -o ~/.local/bin/lolterm .',
+    install_title: "安装", install_sub: "只需要 Go 1.21+。安装后即使没有直播比赛，也能马上查看演示看板。",
+    install_code1: "<span class=\"c\"># 安装二进制</span>\n<span class=\"p\">$</span> go install github.com/m16khb-org/lolterm@latest\n\n<span class=\"c\"># 无需直播比赛，查看看板</span>\n<span class=\"p\">$</span> lolterm lol demo\n\n<span class=\"c\"># 交互式应用</span>\n<span class=\"p\">$</span> lolterm\n\n<span class=\"c\"># 最近的 Worlds 比赛</span>\n<span class=\"p\">$</span> lolterm lol schedule -l worlds -a -n 8",
+    install_code2: "<span class=\"c\"># 从源码构建</span>\n<span class=\"p\">$</span> git clone https://github.com/m16khb-org/lolterm.git\n<span class=\"p\">$</span> cd lolterm &amp;&amp; go build -o ~/.local/bin/lolterm .",
     install_req: "完整的预检和 PATH 设置请参阅", install_req2: "。",
     footer_tag: "lolterm · League of Legends esports terminal CLI",
     footer_note: "使用 lolesports.com 非官方接口"

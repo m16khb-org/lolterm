@@ -77,7 +77,13 @@
 
 ## 설치
 
-Go 1.21 이상이 필요합니다. 다른 도구는 필요 없습니다.
+Homebrew가 있으면 Go를 따로 설치하지 않아도 됩니다. 업데이트는 `brew upgrade lolterm`으로 합니다.
+
+```bash
+brew install m16khb-org/tap/lolterm
+```
+
+Go 1.21 이상이 있으면 `go install`로도 설치할 수 있습니다. 다른 도구는 필요 없습니다.
 
 ```bash
 go install github.com/m16khb-org/lolterm@latest

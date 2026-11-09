@@ -257,7 +257,7 @@
       </div>
       <p class="tagline" data-i18n-html="hero_tagline">방송을 못 틀어도,<br>경기는 터미널에서 봅니다.</p>
       <p class="lede" data-i18n="hero_lede">Worlds부터 LCK까지, 킬·골드·오브젝트·선수 스탯을 터미널 보드로 따라갑니다. 점수와 스탯은 livestats 피드 값 그대로이고 영상으로 추정한 값은 없습니다. 끝난 세트는 되감아 보고, macOS에서는 메뉴 막대에 스코어를 띄웁니다.</p>
-      <div class="cmd"><b>$</b> go install github.com/m16khb-org/lolterm@latest
+      <div class="cmd"><b>$</b> brew install m16khb-org/tap/lolterm
         <button type="button" id="copy" data-i18n="copy" aria-label="Copy install command">복사</button>
       </div>
       <p class="try" data-i18n-html="hero_try">라이브 경기가 없어도 <span class="mono">lolterm lol demo</span>로 보드를 확인할 수 있습니다.</p>
@@ -319,7 +319,7 @@
         <h2 data-i18n="bar_title">터미널을 닫아도 스코어가 보입니다</h2>
         <p data-i18n="bar_desc">lolterm lol bar를 SwiftBar 플러그인으로 연결하면 킬 스코어, 골드 리드, 게임 시계가 메뉴 막대에 표시됩니다. 클릭하면 세트 스코어, 오브젝트, 선수별 K/D/A가 펼쳐지고, 라이브 보드를 터미널에서 바로 열 수 있습니다.</p>
       </div>
-      <pre class="mb-install"><span class="p">$</span> go install github.com/m16khb-org/lolterm@latest
+      <pre class="mb-install"><span class="p">$</span> brew install m16khb-org/tap/lolterm
 <span class="p">$</span> brew install --cask swiftbar</pre>
       <p class="req mb-note" data-i18n="bar_note">v0.3.2 이상이 필요합니다.</p>
       <p class="req"><a href="https://github.com/m16khb-org/lolterm#메뉴-막대-macos" data-i18n="bar_link">README의 SwiftBar 설정 방법 →</a></p>
@@ -417,10 +417,13 @@ BLG ON           Seraphine       3/1/5   22   6.7k</pre>
   <div class="wrap">
     <div class="section-head">
       <h2 data-i18n="install_title">설치</h2>
-      <p data-i18n="install_sub">Go 1.21 이상만 있으면 됩니다. 설치한 뒤에는 라이브 경기가 없어도 데모 보드로 바로 확인합니다.</p>
+      <p data-i18n="install_sub">Homebrew가 있으면 Go 없이 설치됩니다. Windows나 Go 환경에서는 go install을 씁니다. 설치한 뒤에는 라이브 경기가 없어도 데모 보드로 바로 확인합니다.</p>
     </div>
     <div class="install-grid">
-      <pre data-i18n-html="install_code1"><span class="c"># 바이너리 설치</span>
+      <pre data-i18n-html="install_code1"><span class="c"># Homebrew로 설치</span>
+<span class="p">$</span> brew install m16khb-org/tap/lolterm
+
+<span class="c"># Go 1.21 이상으로 설치</span>
 <span class="p">$</span> go install github.com/m16khb-org/lolterm@latest
 
 <span class="c"># 라이브 경기 없이 보드 확인</span>
@@ -574,8 +577,8 @@ const I18N = {
     legend_exact: "정확: 킬 · 골드 · 오브젝트 · KDA · CS · 체력",
     legend_dead: "부활: ☠ + 초. 라이브는 추정(~), 다시 보기는 정확",
     legend_none: "없음: 챔피언 위치 · 텔레포트·귀환 · 밴픽 (피드에 없음)",
-    install_title: "설치", install_sub: "Go 1.21 이상만 있으면 됩니다. 설치한 뒤에는 라이브 경기가 없어도 데모 보드로 바로 확인합니다.",
-    install_code1: "<span class=\"c\"># 바이너리 설치</span>\n<span class=\"p\">$</span> go install github.com/m16khb-org/lolterm@latest\n\n<span class=\"c\"># 라이브 경기 없이 보드 확인</span>\n<span class=\"p\">$</span> lolterm lol demo\n\n<span class=\"c\"># 대화형 앱</span>\n<span class=\"p\">$</span> lolterm\n\n<span class=\"c\"># 최근 Worlds 경기</span>\n<span class=\"p\">$</span> lolterm lol schedule -l worlds -a -n 8",
+    install_title: "설치", install_sub: "Homebrew가 있으면 Go 없이 설치됩니다. Windows나 Go 환경에서는 go install을 씁니다. 설치한 뒤에는 라이브 경기가 없어도 데모 보드로 바로 확인합니다.",
+    install_code1: "<span class=\"c\"># Homebrew로 설치</span>\n<span class=\"p\">$</span> brew install m16khb-org/tap/lolterm\n\n<span class=\"c\"># Go 1.21 이상으로 설치</span>\n<span class=\"p\">$</span> go install github.com/m16khb-org/lolterm@latest\n\n<span class=\"c\"># 라이브 경기 없이 보드 확인</span>\n<span class=\"p\">$</span> lolterm lol demo\n\n<span class=\"c\"># 대화형 앱</span>\n<span class=\"p\">$</span> lolterm\n\n<span class=\"c\"># 최근 Worlds 경기</span>\n<span class=\"p\">$</span> lolterm lol schedule -l worlds -a -n 8",
     install_code2: "<span class=\"c\"># 소스 빌드</span>\n<span class=\"p\">$</span> git clone https://github.com/m16khb-org/lolterm.git\n<span class=\"p\">$</span> cd lolterm &amp;&amp; go build -o ~/.local/bin/lolterm .",
     install_req: "자세한 사전 점검과 PATH 설정은", install_req2: "를 참고하세요.",
     footer_tag: "lolterm · League of Legends esports terminal CLI",
@@ -644,8 +647,8 @@ const I18N = {
     legend_exact: "Exact: kills · gold · objectives · KDA · CS · health",
     legend_dead: "Respawn: ☠ + seconds. Live is estimated (~), replay is exact",
     legend_none: "Not shown: champion positions · teleports and recalls · bans and picks (not in the feed)",
-    install_title: "Install", install_sub: "All you need is Go 1.21+. Once installed, check the demo board right away, even with no live game.",
-    install_code1: "<span class=\"c\"># install the binary</span>\n<span class=\"p\">$</span> go install github.com/m16khb-org/lolterm@latest\n\n<span class=\"c\"># check the board without a live game</span>\n<span class=\"p\">$</span> lolterm lol demo\n\n<span class=\"c\"># interactive app</span>\n<span class=\"p\">$</span> lolterm\n\n<span class=\"c\"># recent Worlds matches</span>\n<span class=\"p\">$</span> lolterm lol schedule -l worlds -a -n 8",
+    install_title: "Install", install_sub: "With Homebrew, no Go install is needed. On Windows or with a Go toolchain, use go install. Once installed, check the demo board right away, even with no live game.",
+    install_code1: "<span class=\"c\"># install with Homebrew</span>\n<span class=\"p\">$</span> brew install m16khb-org/tap/lolterm\n\n<span class=\"c\"># or with Go 1.21+</span>\n<span class=\"p\">$</span> go install github.com/m16khb-org/lolterm@latest\n\n<span class=\"c\"># check the board without a live game</span>\n<span class=\"p\">$</span> lolterm lol demo\n\n<span class=\"c\"># interactive app</span>\n<span class=\"p\">$</span> lolterm\n\n<span class=\"c\"># recent Worlds matches</span>\n<span class=\"p\">$</span> lolterm lol schedule -l worlds -a -n 8",
     install_code2: "<span class=\"c\"># build from source</span>\n<span class=\"p\">$</span> git clone https://github.com/m16khb-org/lolterm.git\n<span class=\"p\">$</span> cd lolterm &amp;&amp; go build -o ~/.local/bin/lolterm .",
     install_req: "See", install_req2: "for the full preflight and PATH setup.",
     footer_tag: "lolterm · League of Legends esports terminal CLI",
@@ -714,8 +717,8 @@ const I18N = {
     legend_exact: "精确：击杀 · 金币 · 资源 · KDA · 补刀 · 生命值",
     legend_dead: "复活：☠ + 秒数。实时为估算（~），回放为精确",
     legend_none: "不显示：英雄位置 · 传送与回城 · 禁用与选用（数据流中没有）",
-    install_title: "安装", install_sub: "只需要 Go 1.21+。安装后即使没有直播比赛，也能马上查看演示看板。",
-    install_code1: "<span class=\"c\"># 安装二进制</span>\n<span class=\"p\">$</span> go install github.com/m16khb-org/lolterm@latest\n\n<span class=\"c\"># 无需直播比赛，查看看板</span>\n<span class=\"p\">$</span> lolterm lol demo\n\n<span class=\"c\"># 交互式应用</span>\n<span class=\"p\">$</span> lolterm\n\n<span class=\"c\"># 最近的 Worlds 比赛</span>\n<span class=\"p\">$</span> lolterm lol schedule -l worlds -a -n 8",
+    install_title: "安装", install_sub: "使用 Homebrew 无需安装 Go。Windows 或已有 Go 环境时请用 go install。安装后即使没有直播比赛，也能马上查看演示看板。",
+    install_code1: "<span class=\"c\"># 使用 Homebrew 安装</span>\n<span class=\"p\">$</span> brew install m16khb-org/tap/lolterm\n\n<span class=\"c\"># 或使用 Go 1.21+ 安装</span>\n<span class=\"p\">$</span> go install github.com/m16khb-org/lolterm@latest\n\n<span class=\"c\"># 无需直播比赛，查看看板</span>\n<span class=\"p\">$</span> lolterm lol demo\n\n<span class=\"c\"># 交互式应用</span>\n<span class=\"p\">$</span> lolterm\n\n<span class=\"c\"># 最近的 Worlds 比赛</span>\n<span class=\"p\">$</span> lolterm lol schedule -l worlds -a -n 8",
     install_code2: "<span class=\"c\"># 从源码构建</span>\n<span class=\"p\">$</span> git clone https://github.com/m16khb-org/lolterm.git\n<span class=\"p\">$</span> cd lolterm &amp;&amp; go build -o ~/.local/bin/lolterm .",
     install_req: "完整的预检和 PATH 设置请参阅", install_req2: "。",
     footer_tag: "lolterm · League of Legends esports terminal CLI",
@@ -756,7 +759,7 @@ applyLang(lang);
 const copy = document.getElementById("copy");
 if (copy) {
   copy.addEventListener("click", async () => {
-    const text = "go install github.com/m16khb-org/lolterm@latest";
+    const text = "brew install m16khb-org/tap/lolterm";
     try { await navigator.clipboard.writeText(text); copy.textContent = "✓"; }
     catch { copy.textContent = "!"; }
     setTimeout(() => { copy.textContent = I18N[lang].copy; }, 1600);

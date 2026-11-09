@@ -9,7 +9,7 @@ Canonical index: [OPERATIONS.md](../../OPERATIONS.md)
 
 ## 빌드와 설치
 
-- 소스 빌드: `go build -o ~/.local/bin/lolterm .` (INSTALL.md). 원격 버전: `go install github.com/m16khb-org/lolterm@latest`. 로컬에만 있는 변경은 소스 빌드로만 반영된다.
+- 소스 빌드: `go build -o ~/.local/bin/lolterm .` (INSTALL.md). 원격 버전: `go install github.com/m16khb-org/lolterm@latest`. Homebrew: `brew install m16khb-org/tap/lolterm`. 새 태그를 만들면 `m16khb-org/homebrew-tap`의 `Formula/lolterm.rb`에서 `tag`와 `revision`을 함께 갱신한다. 로컬에만 있는 변경은 소스 빌드로만 반영된다.
 - 사용자용 절차는 README.md와 INSTALL.md가 우선이다. 이 문서는 요약과 운영 주의만 둔다.
 
 ## 실행과 스모크 확인

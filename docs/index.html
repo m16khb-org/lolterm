@@ -53,6 +53,8 @@
   h1 span { color: var(--cyan); }
   .tagline { margin: 0 0 14px; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.35; letter-spacing: -.6px; font-weight: 650; }
   .lede { margin: 0 0 26px; color: var(--muted); max-width: 520px; }
+  .cmds { display: grid; justify-items: start; gap: 8px; }
+  .cmd-label { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
   .cmd { display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--line);
     background: var(--panel2); border-radius: 10px; padding: 11px 14px; color: #cfdcd5; font-size: 13px; }
   .cmd b { color: var(--cyan); font-weight: 500; }
@@ -258,8 +260,14 @@
       </div>
       <p class="tagline" data-i18n-html="hero_tagline">방송을 못 틀어도,<br>경기는 터미널에서 봅니다.</p>
       <p class="lede" data-i18n="hero_lede">Worlds부터 LCK까지, 킬·골드·오브젝트·선수 스탯을 터미널 보드로 따라갑니다. 점수와 스탯은 livestats 피드 값 그대로이고 영상으로 추정한 값은 없습니다. 끝난 세트는 되감아 보고, macOS에서는 메뉴 막대에 스코어를 띄웁니다.</p>
-      <div class="cmd"><b>$</b> brew install m16khb-org/tap/lolterm
-        <button type="button" id="copy" data-i18n="copy" aria-label="Copy install command">복사</button>
+      <div class="cmds">
+        <div class="cmd"><b>$</b> brew install m16khb-org/tap/lolterm
+          <button type="button" data-copy="brew install m16khb-org/tap/lolterm" data-i18n="copy" aria-label="Copy the Homebrew install command">복사</button>
+        </div>
+        <p class="cmd-label" data-i18n="hero_go_label">Windows나 Homebrew가 없는 환경에서는 Go 1.21 이상으로 설치합니다.</p>
+        <div class="cmd"><b>$</b> go install github.com/m16khb-org/lolterm@latest
+          <button type="button" data-copy="go install github.com/m16khb-org/lolterm@latest" data-i18n="copy" aria-label="Copy the go install command">복사</button>
+        </div>
       </div>
       <p class="try" data-i18n-html="hero_try">라이브 경기가 없어도 <span class="mono">lolterm lol demo</span>로 보드를 확인할 수 있습니다.</p>
       <div class="cta">
@@ -582,6 +590,7 @@ const I18N = {
     install_title: "설치", install_sub: "Homebrew가 있으면 Go 없이 설치됩니다. Windows나 Go 환경에서는 go install을 씁니다. 설치한 뒤에는 라이브 경기가 없어도 데모 보드로 바로 확인합니다.",
     install_code1: "<span class=\"c\"># Homebrew로 설치</span>\n<span class=\"p\">$</span> brew install m16khb-org/tap/lolterm\n\n<span class=\"c\"># Go 1.21 이상으로 설치</span>\n<span class=\"p\">$</span> go install github.com/m16khb-org/lolterm@latest\n\n<span class=\"c\"># 라이브 경기 없이 보드 확인</span>\n<span class=\"p\">$</span> lolterm lol demo\n\n<span class=\"c\"># 대화형 앱</span>\n<span class=\"p\">$</span> lolterm\n\n<span class=\"c\"># 최근 Worlds 경기</span>\n<span class=\"p\">$</span> lolterm lol schedule -l worlds -a -n 8",
     install_code2: "<span class=\"c\"># 소스 빌드</span>\n<span class=\"p\">$</span> git clone https://github.com/m16khb-org/lolterm.git\n<span class=\"p\">$</span> cd lolterm &amp;&amp; go build -o ~/.local/bin/lolterm .",
+    hero_go_label: "Windows나 Homebrew가 없는 환경에서는 Go 1.21 이상으로 설치합니다.",
     install_note: "처음에는 위의 전체 이름으로 설치합니다. brew tap 뒤에 brew install lolterm을 실행하면 신뢰 목록에 없는 tap이라 거부됩니다. 업데이트는 brew upgrade lolterm, 제거는 brew uninstall lolterm입니다.",
     install_req: "자세한 사전 점검과 PATH 설정은", install_req2: "를 참고하세요.",
     footer_tag: "lolterm · League of Legends esports terminal CLI",
@@ -653,6 +662,7 @@ const I18N = {
     install_title: "Install", install_sub: "With Homebrew, no Go install is needed. On Windows or with a Go toolchain, use go install. Once installed, check the demo board right away, even with no live game.",
     install_code1: "<span class=\"c\"># install with Homebrew</span>\n<span class=\"p\">$</span> brew install m16khb-org/tap/lolterm\n\n<span class=\"c\"># or with Go 1.21+</span>\n<span class=\"p\">$</span> go install github.com/m16khb-org/lolterm@latest\n\n<span class=\"c\"># check the board without a live game</span>\n<span class=\"p\">$</span> lolterm lol demo\n\n<span class=\"c\"># interactive app</span>\n<span class=\"p\">$</span> lolterm\n\n<span class=\"c\"># recent Worlds matches</span>\n<span class=\"p\">$</span> lolterm lol schedule -l worlds -a -n 8",
     install_code2: "<span class=\"c\"># build from source</span>\n<span class=\"p\">$</span> git clone https://github.com/m16khb-org/lolterm.git\n<span class=\"p\">$</span> cd lolterm &amp;&amp; go build -o ~/.local/bin/lolterm .",
+    hero_go_label: "On Windows or without Homebrew, install with Go 1.21+.",
     install_note: "Use the full name above for the first install: brew install lolterm after brew tap is refused because the tap isn't trusted yet. Update with brew upgrade lolterm and remove with brew uninstall lolterm.",
     install_req: "See", install_req2: "for the full preflight and PATH setup.",
     footer_tag: "lolterm · League of Legends esports terminal CLI",
@@ -724,6 +734,7 @@ const I18N = {
     install_title: "安装", install_sub: "使用 Homebrew 无需安装 Go。Windows 或已有 Go 环境时请用 go install。安装后即使没有直播比赛，也能马上查看演示看板。",
     install_code1: "<span class=\"c\"># 使用 Homebrew 安装</span>\n<span class=\"p\">$</span> brew install m16khb-org/tap/lolterm\n\n<span class=\"c\"># 或使用 Go 1.21+ 安装</span>\n<span class=\"p\">$</span> go install github.com/m16khb-org/lolterm@latest\n\n<span class=\"c\"># 无需直播比赛，查看看板</span>\n<span class=\"p\">$</span> lolterm lol demo\n\n<span class=\"c\"># 交互式应用</span>\n<span class=\"p\">$</span> lolterm\n\n<span class=\"c\"># 最近的 Worlds 比赛</span>\n<span class=\"p\">$</span> lolterm lol schedule -l worlds -a -n 8",
     install_code2: "<span class=\"c\"># 从源码构建</span>\n<span class=\"p\">$</span> git clone https://github.com/m16khb-org/lolterm.git\n<span class=\"p\">$</span> cd lolterm &amp;&amp; go build -o ~/.local/bin/lolterm .",
+    hero_go_label: "在 Windows 或没有 Homebrew 的环境中，请使用 Go 1.21+ 安装。",
     install_note: "首次安装请使用上面的完整名称：在 brew tap 之后运行 brew install lolterm 会因该 tap 不受信任而被拒绝。使用 brew upgrade lolterm 更新，使用 brew uninstall lolterm 卸载。",
     install_req: "完整的预检和 PATH 设置请参阅", install_req2: "。",
     footer_tag: "lolterm · League of Legends esports terminal CLI",
@@ -753,19 +764,15 @@ function applyLang(l) {
     b.setAttribute("aria-pressed", b.dataset.lang === lang ? "true" : "false");
   }
   localStorage.setItem("lolterm-lang", lang);
-  const copy = document.getElementById("copy");
-  if (copy) copy.textContent = d.copy;
 }
 for (const b of document.querySelectorAll(".langs button")) {
   b.addEventListener("click", () => applyLang(b.dataset.lang));
 }
 applyLang(lang);
 
-const copy = document.getElementById("copy");
-if (copy) {
+for (const copy of document.querySelectorAll("[data-copy]")) {
   copy.addEventListener("click", async () => {
-    const text = "brew install m16khb-org/tap/lolterm";
-    try { await navigator.clipboard.writeText(text); copy.textContent = "✓"; }
+    try { await navigator.clipboard.writeText(copy.dataset.copy); copy.textContent = "✓"; }
     catch { copy.textContent = "!"; }
     setTimeout(() => { copy.textContent = I18N[lang].copy; }, 1600);
   });

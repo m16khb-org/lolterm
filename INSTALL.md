@@ -9,7 +9,7 @@
 
 ```bash
 # 1. 사전 점검
-command -v brew                 # → 있으면 go, git 점검 없이 2번의 Homebrew 설치로 간다
+command -v brew                 # → 있으면 go, git 점검 없이 2번의 Homebrew 설치로 간다. 없으면(Windows 포함) 아래 점검 후 go install
 go version                      # → go1.21 이상이 아니면: Go 설치(https://go.dev/dl/ 또는 macOS: brew install go) 후 재시도
 git --version                   # → 없으면 설치 (소스 빌드를 쓸 때만 필요)
 
@@ -112,7 +112,8 @@ esac
 ### Windows (PowerShell)
 
 ```powershell
-go install .                       # 저장소 안에서. %USERPROFILE%\go\bin\lolterm.exe, Go 설치 프로그램이 PATH 에 넣어 둔 경로
+go install github.com/m16khb-org/lolterm@latest   # %USERPROFILE%\go\bin\lolterm.exe, Go 설치 프로그램이 PATH 에 넣어 둔 경로
+# 소스 체크아웃이 있으면 저장소 안에서: go install .
 lolterm
 # 또는: go build . 후 .\lolterm.exe   (PowerShell 은 현재 폴더의 실행 파일을 .\ 없이 찾지 않는다)
 ```

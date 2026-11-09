@@ -59,7 +59,7 @@
 - **계산한 값은 근거를 밝힙니다.** 게임 시계는 일시정지 구간을 빼고, 오브젝트 타이머는 피드의 처치 시각에 패치 규칙을 더해 구합니다. 유일한 추정값인 라이브 부활 시간에는 `~`를 붙입니다.
 - **터미널에서 끝납니다.** 라이브 보드와 다시 보기를 한 화면에서 보고, 키보드와 마우스로 조작합니다. UI는 한국어·영어·중국어를 지원합니다.
 - **터미널을 닫아도 스코어가 보입니다.** macOS에서는 SwiftBar 플러그인으로 킬 스코어, 골드 리드, 게임 시계를 메뉴 막대에 띄웁니다.
-- **설치가 가볍습니다.** `brew install` 한 줄로 설치합니다. Go 표준 라이브러리만 쓰는 단일 바이너리이고, 실행할 때 외부 도구가 필요 없습니다.
+- **설치가 가볍습니다.** `brew install`이나 `go install` 한 줄로 설치합니다. Go 표준 라이브러리만 쓰는 단일 바이너리이고, 실행할 때 외부 도구가 필요 없습니다.
 
 ## 한눈에
 
@@ -77,6 +77,8 @@
 
 ## 설치
 
+### Homebrew
+
 Homebrew가 있으면 Go를 따로 설치하지 않아도 됩니다.
 
 ```bash
@@ -86,14 +88,17 @@ brew install m16khb-org/tap/lolterm
 처음 설치할 때는 위처럼 전체 이름을 씁니다. `brew tap m16khb-org/tap` 뒤에 `brew install lolterm`을 실행하면 신뢰 목록에 없는 tap이라 거부됩니다.
 업데이트는 `brew upgrade lolterm`, 제거는 `brew uninstall lolterm`으로 합니다.
 
-Go 1.21 이상이 있으면 `go install`로도 설치할 수 있습니다. 다른 도구는 필요 없습니다.
+### go install (Windows, Homebrew가 없는 환경)
+
+[Go](https://go.dev/dl/) 1.21 이상만 있으면 됩니다. 다른 도구는 필요 없습니다.
 
 ```bash
 go install github.com/m16khb-org/lolterm@latest
 # $(go env GOPATH)/bin 이 PATH 에 있어야 합니다
 ```
 
-Windows 10 1809 이상에서도 네이티브로 빌드하고 실행합니다. 저장소에서 `go install .` 한 뒤 `lolterm`을 실행합니다.
+Windows는 10 1809 이상에서 네이티브로 실행합니다. 바이너리는 `%USERPROFILE%\go\bin`에 설치됩니다.
+
 자세한 사전 점검·PATH·검증 절차는 **[INSTALL.md](INSTALL.md)** 에 있습니다.
 
 설치가 끝나면 `lolterm lol demo`로 라이브 경기 없이 보드를 확인할 수 있습니다.

@@ -9,15 +9,17 @@
 
 ```bash
 # 1. 사전 점검
+command -v brew                 # → 있으면 go, git 점검 없이 2번의 Homebrew 설치로 간다
 go version                      # → go1.21 이상이 아니면: Go 설치(https://go.dev/dl/ 또는 macOS: brew install go) 후 재시도
 git --version                   # → 없으면 설치 (소스 빌드를 쓸 때만 필요)
 
-# 2. 설치 (둘 중 하나)
+# 2. 설치 (셋 중 하나)
+brew install m16khb-org/tap/lolterm                  # Homebrew: Go 를 함께 설치해 빌드한다. 반드시 전체 이름을 쓴다
 go install github.com/m16khb-org/lolterm@latest      # 바이너리: $(go env GOPATH)/bin/lolterm (원격에 푸시된 버전)
 #   소스 체크아웃이 있으면 이쪽을 우선 (로컬 최신 기능 포함):  cd <repo> && mkdir -p ~/.local/bin && go build -o ~/.local/bin/lolterm .
 
 # 3. PATH (없을 때만 추가)
-BIN="$(go env GOPATH)/bin"          # 소스 빌드를 썼다면 BIN="$HOME/.local/bin"
+BIN="$(go env GOPATH)/bin"          # 소스 빌드를 썼다면 BIN="$HOME/.local/bin", Homebrew 를 썼다면 BIN="$(brew --prefix)/bin"
 case ":$PATH:" in *":$BIN:"*) ;; *) echo "export PATH=\"$BIN:\$PATH\"" >> ~/.zshrc; export PATH="$BIN:$PATH";; esac
 #   bash 사용자는 ~/.zshrc 대신 ~/.bashrc
 
@@ -44,6 +46,8 @@ raw 모드(키 입력)는 darwin, linux, windows 를 모두 지원한다 (`term_
 대화형 앱, `relay`, `replay` 의 키 입력(`b` `s` `o` `q`)은 세 OS 에서 모두 즉시 반응한다. Linux 는 빌드만 확인했고, Linux 터미널에서 대화형 앱을 직접 실행해 보지는 않았다.
 
 ## 2. 사전 점검
+
+Homebrew 로 설치하면 Go 와 git 점검은 건너뛴다.
 
 ```bash
 go version
@@ -84,10 +88,18 @@ mkdir -p ~/.local/bin
 go build -o ~/.local/bin/lolterm .
 ```
 
+### (c) Homebrew
+
+```bash
+brew install m16khb-org/tap/lolterm
+# 설치 위치: $(brew --prefix)/bin. Go 는 Homebrew 가 빌드 의존성으로 설치한다.
+# 주의: 처음에는 전체 이름을 쓴다. brew tap 뒤에 brew install lolterm 을 실행하면 거부된다(6장).
+```
+
 ### PATH 추가 (없을 때만)
 
 ```bash
-BIN="$(go env GOPATH)/bin"      # (b) 로 설치했다면 BIN="$HOME/.local/bin"
+BIN="$(go env GOPATH)/bin"      # (b) 로 설치했다면 BIN="$HOME/.local/bin", (c) 로 설치했다면 BIN="$(brew --prefix)/bin"
 case ":$PATH:" in
   *":$BIN:"*) echo "이미 PATH 에 있음" ;;
   *) echo "export PATH=\"$BIN:\$PATH\"" >> ~/.zshrc    # bash 는 ~/.bashrc
@@ -109,7 +121,7 @@ lolterm
 
 ### macOS quarantine
 
-브라우저로 내려받은 바이너리를 실행할 때 Gatekeeper 가 막는 경우에만 해당한다. `go install`/`go build` 로 만든 바이너리에는 필요 없다.
+브라우저로 내려받은 바이너리를 실행할 때 Gatekeeper 가 막는 경우에만 해당한다. `go install`/`go build`/`brew install` 로 만든 바이너리에는 필요 없다.
 
 ```bash
 xattr -d com.apple.quarantine "$(command -v lolterm)" 2>/dev/null || true
@@ -166,6 +178,8 @@ Enter 를 누르면 `[0]` 창에 `REPLAY` 보드와 맨 아래 플레이어 바�
 | `zsh: command not found: lolterm lol relay -l worlds` | 줄 전체가 하나의 단어로 읽힌 것. 복사 과정에서 공백이 non-breaking space(U+00A0)로 바뀐 경우다. 명령을 직접 다시 입력한다 |
 | `command not found: lolterm` | 설치 안 됨 또는 PATH 누락. 3장 수행 후 새 셸을 열거나 `hash -r` |
 | `waiting for in-game data…` | 진행 중으로 표시된 경기에 방송(spectate)이 아직 시작되지 않아 피드가 비어 있다. 정상이며 방송이 시작되면 자동으로 이어진다 |
+| `Refusing to load formula m16khb-org/tap/lolterm from untrusted tap` | `brew tap` 뒤에 짧은 이름으로 설치해 신뢰 목록에 없는 경우다. `brew install m16khb-org/tap/lolterm` 처럼 전체 이름으로 설치한다 |
+| Homebrew 로 설치했는데 `lolterm -version` 이 다른 버전을 보여 준다 | PATH 에서 앞선 다른 `lolterm` 이 실행된 것이다. `which -a lolterm` 으로 확인하고 필요 없는 쪽을 지우거나 PATH 순서를 바꾼다 |
 | 코드를 고쳤는데 동작이 그대로 | 오래된 바이너리다. `go build -o ~/.local/bin/lolterm .` 로 다시 빌드하고 `hash -r` |
 
 ## 7. 업데이트와 제거
@@ -174,7 +188,9 @@ Enter 를 누르면 `[0]` 창에 `REPLAY` 보드와 맨 아래 플레이어 바�
 # 업데이트
 go install github.com/m16khb-org/lolterm@latest                 # (a) 로 설치한 경우
 cd <repo> && git pull && go build -o ~/.local/bin/lolterm .      # (b) 로 설치한 경우
+brew upgrade lolterm                                             # (c) 로 설치한 경우
 
 # 제거
-rm -f "$(command -v lolterm)"
+rm -f "$(command -v lolterm)"                                    # (a), (b) 로 설치한 경우
+brew uninstall lolterm                                           # (c) 로 설치한 경우
 ```
